@@ -9,7 +9,7 @@ const active = ref('home')
 // 顶部导航栏中间标题
 const navTitle = ref('主页')
 // 切换底部tab栏标签时触发，更换当前激活的标签索引值name
-const tabChange = (name) => {
+const tabChange = (name:string) => {
   // 切换标签时，修改对应导航栏标题
   // console.log(name)
   switch (name) {
