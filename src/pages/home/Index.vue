@@ -200,50 +200,61 @@ const onClickShare = () => {
     </van-tab>
     <!-- 好友圈 -->
     <van-tab title="好友圈" name="following">
-      <van-card centered @click-thumb="onClickViewImage">
-        <!-- 自定义卡片标题区域 -->
-        <template #title>
-          <!-- 单元格组件 -->
-          <van-cell title="单元格" is-link arrow-direction="down" value="更多..." center label="">
-            <!-- 自定义单元格标题区域 -->
-            <template #title>
-              <!-- 用户头像 -->
-              <van-image
-                round
-                fit="cover"
-                width="45"
-                height="45"
-                src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-                @click="onClickUser"
-              >
-                <template v-slot:loading>
-                  <van-loading type="spinner" size="20" />
-                </template>
-              </van-image>
+      <!-- 帖子之间的分割线-上方 -->
+      <van-divider :hairline="true" :style="{ color: '#a29999', borderColor: '#b5afaf' }" />
+      <!-- 帖子头部区域 -->
+      <van-row justify="space-around">
+        <van-col span="6">
+          <!-- 用户头像 -->
+          <van-image
+            round
+            fit="cover"
+            width="80"
+            height="80"
+            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+            @click="onClickUser"
+          >
+            <template v-slot:loading>
+              <van-loading type="spinner" size="20" />
             </template>
-            <!-- 自定义单元格标题下方标签描述区域 -->
+          </van-image>
+        </van-col>
+        <van-col span="18">
+          <van-cell center title="单元格" value="详情" label="描述信息" is-link>
+            <!-- 自定义单元格title区域 -->
+            <template #title>
+              <van-row justify="space-between">
+                <!-- 用户昵称（最大长度为6） -->
+                <span class="custom-title" style="color: #f48d08; font-size: 15px"
+                  >@cloud-ripple</span
+                >
+              </van-row>
+            </template>
+            <!-- 自定义单元格label区域（用户名下方） -->
             <template #label>
-              <van-space align="center" size="7px" style="padding: 1px" wrap>
-                <span> 用户: ripple123</span>
-                <span><van-icon name="location" size="12">南京</van-icon></span>
-                <span>2023-11-16</span>
-              </van-space>
+              <van-row justify="space-between">
+                <van-icon name="clock" size="12" color="#7D7878FF">日期：2023-11-17</van-icon><br />
+                <van-icon name="location" size="12" color="#7D7878FF">地点：南京</van-icon>
+              </van-row>
+            </template>
+            <!-- 自定义单元格value区域（最右侧 >） -->
+            <template #value>
+              <span>详情</span>
             </template>
           </van-cell>
-        </template>
-        <!-- 图片预览组件 -->
-        <template #bottom>
-          <van-image-preview
-            v-model:show="isShowImage"
-            :images="images"
-            @change="onChangeImage"
-            :closeable="true"
-          >
-          </van-image-preview>
-        </template>
-        <!-- 自定义文章标题下方区域 -->
-        <template #desc>
-          <!-- 微博文本内容区域（最多显示2行） -->
+        </van-col>
+      </van-row>
+      <!-- 图片预览组件 -->
+      <van-image-preview
+        v-model:show="isShowImage"
+        :images="images"
+        @change="onChangeImage"
+        :closeable="true"
+      >
+      </van-image-preview>
+      <!-- 帖子内容-中心区域（最多显示2行） -->
+      <van-row>
+        <van-space align="center" size="5px" style="padding: 0 10px" fill wrap>
           <van-text-ellipsis
             rows="2"
             :content="articleText"
@@ -251,72 +262,73 @@ const onClickShare = () => {
             collapse-text="收起"
             @click-action="onClickExpandOrCollapse"
           />
-          <!-- 微博图片展示区域 -->
-          <van-grid :gutter="3" :column-num="3" :border="false" :clickable="true" square>
-            <van-grid-item v-for="value in 6" :key="value">
-              <van-image
-                fit="cover"
-                width="110"
-                src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-                @click="onClickImage"
-              >
-                <template v-slot:loading>
-                  <van-loading type="spinner" size="20" />
-                </template>
-              </van-image>
-            </van-grid-item>
-          </van-grid>
-        </template>
-
-        <!-- 自定义微博浏览数量(点击查看一次图片，浏览量 + 1) -->
-        <template #num>
-          <van-icon name="eye" size="12">浏览量：8</van-icon>
-        </template>
-        <!-- 自定义右下角内容 -->
-        <template #footer>
-          <!-- 评论 -->
-          <van-button size="mini">
-            <van-icon name="comment-o" size="20" @click="onClickComment" />
-          </van-button>
-          <span>35</span>
-          <!-- 点赞 -->
-          <van-button size="mini">
-            <van-rate
-              v-model="likeValue"
-              @change="onChangeLike"
-              color="red"
-              void-color="black"
-              icon="good-job"
-              void-icon="good-job-o"
-              :count="1"
-              :size="15"
-              clearable
-            />
-          </van-button>
-          <span>12</span>
-          <!-- 收藏 -->
-          <van-button size="mini">
-            <van-rate
-              v-model="starValue"
-              @change="onChangeStar"
-              color="#ffd21e"
-              void-color="black"
-              icon="star"
-              void-icon="star-o"
-              :count="1"
-              :size="15"
-              clearable
-            />
-          </van-button>
-          <span>3</span>
-          <!-- 分享  -->
-          <van-button size="mini">
-            <van-icon name="share-o" size="20" @click="onClickShare" />
-          </van-button>
-          <span>3.5k</span>
-        </template>
-      </van-card>
+        </van-space>
+      </van-row>
+      <!-- 帖子图片展示区域 -->
+      <van-row>
+        <van-space align="center" size="5px" style="padding: 0 10px" fill wrap>
+          <van-image
+            fit="cover"
+            width="80"
+            height="80"
+            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+            @click="onClickImage"
+            v-for="i in 9"
+            :key="i"
+          >
+            <template v-slot:loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
+        </van-space>
+      </van-row>
+      <!-- 帖子底部区域（评论、点赞、收藏、分享） -->
+      <van-row gutter="5" justify="space-between" :wrap="false">
+        <van-col span="6" offset="1"
+          ><!-- 评论 -->
+          <van-icon name="comment-o" size="24" @click="onClickComment" />
+          <span>2432</span>
+        </van-col>
+        <van-col span="6"
+          ><!-- 点赞 -->
+          <van-rate
+            v-model="likeValue"
+            @change="onChangeLike"
+            color="red"
+            void-color="black"
+            icon="good-job"
+            void-icon="good-job-o"
+            :count="1"
+            :size="24"
+            clearable
+          />
+          <span>124124</span></van-col
+        >
+        <van-col span="6"
+          ><!-- 收藏 -->
+          <van-rate
+            v-model="starValue"
+            @change="onChangeStar"
+            color="#ffd21e"
+            void-color="black"
+            icon="star"
+            void-icon="star-o"
+            :count="1"
+            :size="24"
+            clearable
+          />
+          <span>321421</span></van-col
+        >
+        <van-col span="6"
+          ><!-- 分享  -->
+          <van-icon name="share-o" size="24" @click="onClickShare" />
+          <span>3.5k</span></van-col
+        >
+      </van-row>
+      <!-- 帖子之间的分割线-下方 -->
+      <van-divider :hairline="true" :style="{ color: '#a29999', borderColor: '#b5afaf' }" />
     </van-tab>
+
     <!-- 贴文专区 -->
     <van-tab title="贴文专区" name="article">
       <van-card

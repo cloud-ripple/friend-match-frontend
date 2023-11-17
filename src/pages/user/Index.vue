@@ -7,14 +7,15 @@ const onClickUser = () => {
 
 <template>
   <!-- Layout 布局-row-col组件 每个元素的两侧间隔相等 -->
+  <!-- 第一行（顶部区域） -->
   <van-row justify="space-around">
     <van-col span="6">
       <!-- 用户头像 -->
       <van-image
         round
         fit="cover"
-        width="85"
-        height="85"
+        width="80"
+        height="80"
         src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
         @click="onClickUser"
       >
@@ -29,7 +30,7 @@ const onClickUser = () => {
         <template #title>
           <van-row justify="space-between">
             <!-- 用户昵称（最大长度为6） -->
-            <span class="custom-title" style="color: #f48d08;font-size: 15px">@cloud-ripple</span>
+            <span class="custom-title" style="color: #f48d08; font-size: 15px">@cloud-ripple</span>
           </van-row>
         </template>
         <!-- 自定义单元格label区域（用户名下方） -->
@@ -37,7 +38,7 @@ const onClickUser = () => {
           <van-row justify="space-around">
             <span class="custom-title">用户ID：1493440094</span>
             <span class="custom-title">性别：男</span>
-            <van-icon name="location">南京</van-icon>
+            <van-icon name="location">南京市</van-icon>
           </van-row>
         </template>
         <!-- 自定义单元格value区域（最右侧） -->
@@ -47,28 +48,45 @@ const onClickUser = () => {
       </van-cell>
     </van-col>
   </van-row>
+  <!-- 分割线 -->
+  <van-divider :style="{ color: '#151313', borderColor: '#a29999' }">我的标签</van-divider>
+  <!-- 第二行（我的标签区域） -->
   <van-row justify="space-around">
-      <!-- 用户标签 -->
-    <van-divider
-      :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }"
-    >
-      我的标签
-    </van-divider>
-      <van-space align="center" size="5px" style="padding: 5px" fill wrap>
-
-
-        <van-tag plain round color="red" size="medium" :show="true">java</van-tag>
-        <van-tag plain round color="red">python</van-tag>
-        <van-tag plain round color="red">大二</van-tag>
-        <van-tag plain round color="red">前端</van-tag>
-        <van-tag plain round color="red">羽毛球</van-tag>
-        <van-tag plain round color="red">跑步</van-tag>
-        <van-tag plain round color="red">跑步</van-tag>
-        <van-tag plain round color="red">跑步</van-tag>
-        <van-tag plain round color="red">跑步</van-tag>
-        <van-tag plain round color="red">跑步</van-tag>
-      </van-space>
+    <van-space align="center" size="5px" style="padding: 5px" fill wrap>
+      <van-tag plain round color="red" size="medium" :show="true">java</van-tag>
+      <van-tag plain round color="red">python</van-tag>
+      <van-tag plain round color="red">大二</van-tag>
+      <van-tag plain round color="red">前端</van-tag>
+      <van-tag plain round color="red">羽毛球</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+      <van-tag plain round color="red">跑步</van-tag>
+    </van-space>
   </van-row>
+  <!-- 分割线 -->
+  <van-divider :hairline="true" :style="{ color: '#a29999', borderColor: '#b5afaf' }" />
+  <van-grid icon-size="30px" :column-num="4" :gutter="1" :border="false" :clickable="true" square>
+    <van-grid-item icon="browsing-history" icon-color="#B7AB6AFF" text="浏览历史"></van-grid-item>
+    <van-grid-item icon="photo" icon-color="#76BB0DFF" text="我的相册" />
+    <van-grid-item icon="bookmark" icon-color="#1989fa" text="我的收藏" />
+    <van-grid-item icon="wechat" icon-color="#29A61CFF" text="联系作者" />
+    <van-grid-item icon="friends" icon-color="#B024C9FF" text="好友列表" />
+    <van-grid-item icon="records" icon-color="#1EAAA9FF" text="我的博文" />
+    <van-grid-item icon="setting" icon-color="#6D7FDBFF" text="设置" />
+    <van-grid-item icon="question" icon-color="#D4A569FF" text="关于本站" />
+  </van-grid>
+  <!-- 分割线 -->
+  <van-divider :style="{ color: '#a29999', borderColor: '#a29999' }"> </van-divider>
+  <!-- 切换账号 -->
+  <van-button size="large" icon="" :hairline="true" block text="切换账号" />
+  <!-- 退出登录  -->
+  <van-button size="large" :hairline="true" block text="退出登录" />
 </template>
 
 <style scoped></style>

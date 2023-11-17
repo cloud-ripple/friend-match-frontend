@@ -59,7 +59,7 @@ const icon = {
     <van-tabbar-item icon="home-o" name="home" badge="3" :to="{ name: 'home' }">
       主页
     </van-tabbar-item>
-    <van-tabbar-item icon="friends-o" name="team" dot :to="{ name: 'duiwu' }">队伍</van-tabbar-item>
+    <van-tabbar-item icon="flag-o" name="team" dot :to="{ name: 'duiwu' }">队伍</van-tabbar-item>
     <van-tabbar-item icon="add" name="create">创作</van-tabbar-item>
     <van-tabbar-item icon="chat-o" name="message" :to="{ name: 'xiaoxi' }">
       <van-badge :content="130" max="99" :show-zero="false" :offset="[2, -17]">消息</van-badge>
