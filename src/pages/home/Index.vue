@@ -203,8 +203,11 @@ const onClickShare = () => {
       <van-card centered @click-thumb="onClickViewImage">
         <!-- 自定义卡片标题区域 -->
         <template #title>
+          <!-- 单元格组件 -->
           <van-cell title="单元格" is-link arrow-direction="down" value="更多..." center label="">
+            <!-- 自定义单元格标题区域 -->
             <template #title>
+              <!-- 用户头像 -->
               <van-image
                 round
                 fit="cover"
@@ -218,6 +221,7 @@ const onClickShare = () => {
                 </template>
               </van-image>
             </template>
+            <!-- 自定义单元格标题下方标签描述区域 -->
             <template #label>
               <van-space align="center" size="7px" style="padding: 1px" wrap>
                 <span> 用户: ripple123</span>
