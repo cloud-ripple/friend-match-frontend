@@ -3,7 +3,7 @@
 </script>
 
 <template>
-设置页
+消息页
 </template>
 
 <style scoped>

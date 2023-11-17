@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import BasicLayout from '@/layouts/BasicLayout.vue'
 import Home from '@/pages/home/Index.vue'
-import User from "@/pages/user/Index.vue"
-import Team from "@/pages/team/Index.vue"
-import Setting from "@/pages/setting/Index.vue"
+import User from '@/pages/user/Index.vue'
+import Team from '@/pages/team/Index.vue'
+import Message from '@/pages/message/Index.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -24,15 +24,15 @@ const router = createRouter({
           component: Team
         },
         {
+          path: 'message', //当访问路径默认为空时，该组件页面也会展示
+          name: 'xiaoxi',
+          component: Message
+        },
+        {
           path: 'user', //当访问路径默认为空时，该组件页面也会展示
           name: 'geren',
           component: User
-        },
-        {
-          path: 'setting', //当访问路径默认为空时，该组件页面也会展示
-          name: 'shezhi',
-          component: Setting
-        },
+        }
       ]
     }
   ]
