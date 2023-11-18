@@ -6,7 +6,7 @@
  解决方法很简单，一开始的时候env.d.ts是空文件，我们可以在项目的env.d.ts中引入如下代码：
  */
 declare module '*.vue' {
-  import { DefineComponent } from "vue"
+  import { DefineComponent } from 'vue'
   const component: DefineComponent<{}, {}, any>
   export default component
 }

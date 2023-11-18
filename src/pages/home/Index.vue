@@ -31,7 +31,7 @@ const onClickCancel = () => {
 // tab 标签激活值，默认高亮 name="recommend" 推荐标签
 const activeTabName = ref('recommend')
 // 点击 tab 标签栏触发
-const onClickTab = (tabParamsObj:object) => {
+const onClickTab = (tabParamsObj:any) => {
   //console.log(tabParamsObj) //接收到的参数对象 -> {name: 'following', title: '好友圈', event: PointerEvent, disabled: false}
   console.log(`主页-当前激活标签是${activeTabName.value}`);
 }
@@ -112,7 +112,7 @@ const onClickShare = () => {
 </script>
 
 <template>
-  <!-- 通知栏 -->
+  <!-- 通知条 -->
   <van-notice-bar left-icon="volume-o" :scrollable="false" mode="closeable">
     <van-swipe
       vertical

@@ -1,42 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { showToast } from 'vant'
-import { useRouter } from 'vue-router'
+import SearchBar from "@/components/SearchBar.vue";
 
-// 获取路由器
-const router = useRouter()
-// 控制通知栏是否显示
-const show = ref(false)
-const showNotify = () => {
-  show.value = true
-  setTimeout(() => {
-    show.value = false
-  }, 2000)
-}
-
-// 搜索框当前输入值
-const searchValue = ref('')
-// 搜索触发，输入完关键字后，确认搜索时触发(包括回车)
-const onSureSearch = (val: any) => {
-  console.log('搜索值', val)
-  showNotify()
-  // 跳转到搜索结果页
-  router.push('result')
-}
-
-// 点击输入框右侧取消时触发
-const onClickCancel = () => {
-  // 先判断搜索框是否有内容
-  if (searchValue.value.trim() === '') {
-    // 如果为空，且点击了取消，则退出当前搜索页面，返回主页面
-    router.push({
-      name: 'home'
-    })
-    return
-  }
-  // 清空搜索框
-  searchValue.value = ''
-}
 
 //  -------搜索历史区域---------
 
@@ -162,24 +127,8 @@ const onClickAddTag = (childTag: any) => {
 </script>
 
 <template>
-  <!-- 通知栏组件 -->
-  <van-notify v-model:show="show" type="success">
-    <van-icon name="bell" style="margin-right: 4px" />
-    <span>查询到如下信息！</span>
-  </van-notify>
   <!-- 搜索框 -->
-  <van-search
-    v-model="searchValue"
-    shape="round"
-    show-action
-    placeholder="请输入搜索关键词"
-    @search="onSureSearch(searchValue)"
-  >
-    <!--  搜索框右侧内容（自定义插槽）  -->
-    <template #action>
-      <span @click="onClickCancel">取消</span>
-    </template>
-  </van-search>
+  <SearchBar></SearchBar>
   <!-- 通知条 -->
   <van-notice-bar mode="closeable" color="#1989fa" background="#ecf9ff" left-icon="info-o">
     提示：您可以选择多个标签来匹配用户
@@ -237,8 +186,6 @@ const onClickAddTag = (childTag: any) => {
     </van-tab>
   </van-tabs>
 
-  <!-- 分割线 -->
-  <van-divider :hairline="true" :style="{ color: '#151313', borderColor: '#a29999' }" />
 
 
 </template>
