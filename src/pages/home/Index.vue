@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { showToast } from 'vant'
 // 图片预览组件辅助函数
 import { showImagePreview } from 'vant'
+import UserCard from "@/components/UserCard.vue";
 
 // 控制通知栏是否显示
 const show = ref(false)
@@ -36,18 +37,7 @@ const onClickTab = (tabParamsObj:object) => {
 }
 
 // ------- 推荐伙伴 ----------
-// 加好友
-const onClickAddFriend = () => {
-  console.log('点击了添加好友')
-}
-// 邀请入队
-const onClickJoinTeam = () => {
-  console.log('点击了邀请入队')
-}
-// 更多
-const onClickMore = () => {
-  console.log('点击了更多')
-}
+
 
 // ------- 好友圈 ----------
 // 当前微博用户
@@ -157,52 +147,14 @@ const onClickShare = () => {
   <van-tabs v-model:active="activeTabName" type="line" @click-tab="onClickTab">
     <!-- 推荐伙伴  -->
     <van-tab title="推荐伙伴" name="recommend">
-      <!-- 内容展示区域（个人卡片可以抽取成一个组件） -->
-      <van-card
-        tag="小黑子"
-        desc="个人描述信息"
-        title="用户名"
-        thumb="https://fastly.jsdelivr.net/npm/@vant/assets/tree.jpeg"
-        centered
-      >
-        <!--   自定义描述下方标签区域  -->
-        <template #tags>
-          <van-space align="center" size="5px" style="padding: 5px" wrap fill>
-            <van-tag plain round color="red" size="medium" :show="true">java</van-tag>
-            <van-tag plain round color="red">python</van-tag>
-            <van-tag plain round color="red">大二</van-tag>
-            <van-tag plain round color="red">前端</van-tag>
-            <van-tag plain round color="red">羽毛球</van-tag>
-            <van-tag plain round color="red">跑步</van-tag>
-            <van-tag plain round color="red">跑步</van-tag>
-            <van-tag plain round color="red">跑步</van-tag>
-            <van-tag plain round color="red">跑步</van-tag>
-            <van-tag plain round color="red">跑步</van-tag>
-          </van-space>
-        </template>
-        <!-- 自定义数量  -->
-        <template #num>
-          <van-icon name="contact" size="12">粉丝数：8</van-icon>
-        </template>
-        <!-- 自定义右下角内容 -->
-        <template #footer>
-          <van-button size="mini" @click="onClickAddFriend">
-            <van-icon name="add" size="14">关注</van-icon>
-          </van-button>
-          <van-button size="mini" @click="onClickJoinTeam">
-            <van-icon name="invitation" size="14">邀请入队</van-icon>
-          </van-button>
-          <van-button size="mini" @click="onClickMore">
-            <van-icon name="arrow" size="14">更多...</van-icon>
-          </van-button>
-        </template>
-      </van-card>
+      <!-- 内容展示区域（用户个人卡片可以抽取成一个组件） -->
+      <UserCard></UserCard>
     </van-tab>
     <!-- 好友圈 -->
     <van-tab title="好友圈" name="following">
       <!-- 帖子之间的分割线-上方 -->
       <van-divider :hairline="true" :style="{ color: '#a29999', borderColor: '#b5afaf' }" />
-      <!-- 帖子头部区域 -->
+      <!-- 帖子头部区域 -> 单独抽取成一个用户卡片组件 -->
       <van-row justify="space-around">
         <van-col span="6">
           <!-- 用户头像 -->
@@ -328,7 +280,6 @@ const onClickShare = () => {
       <!-- 帖子之间的分割线-下方 -->
       <van-divider :hairline="true" :style="{ color: '#a29999', borderColor: '#b5afaf' }" />
     </van-tab>
-
     <!-- 贴文专区 -->
     <van-tab title="贴文专区" name="article">
       <van-card

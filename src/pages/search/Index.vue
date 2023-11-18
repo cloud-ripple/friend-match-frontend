@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { showToast } from 'vant'
 import { useRouter } from 'vue-router'
 
+// 获取路由器
+const router = useRouter()
 // 控制通知栏是否显示
 const show = ref(false)
 const showNotify = () => {
@@ -14,12 +16,14 @@ const showNotify = () => {
 
 // 搜索框当前输入值
 const searchValue = ref('')
-// 输入完关键字后，确认搜索时触发(包括回车)
+// 搜索触发，输入完关键字后，确认搜索时触发(包括回车)
 const onSureSearch = (val: any) => {
   console.log('搜索值', val)
+  showNotify()
+  // 跳转到搜索结果页
+  router.push('result')
 }
-// 获取路由器
-const router = useRouter()
+
 // 点击输入框右侧取消时触发
 const onClickCancel = () => {
   // 先判断搜索框是否有内容
@@ -60,7 +64,7 @@ const onCloseTag = (childTag: any) => {
 
 // ------标签分类区域-----
 // 当前激活的标签名
-const activeTabName = ref('计算机')
+const activeTabName = ref('热门')
 // 点击 tab 标签栏触发
 const onClickTab = (tabParamsObj: object) => {
   //console.log(tabParamsObj) //接收到的参数对象 -> {name: 'following', title: '好友圈', event: PointerEvent, disabled: false}
@@ -158,6 +162,11 @@ const onClickAddTag = (childTag: any) => {
 </script>
 
 <template>
+  <!-- 通知栏组件 -->
+  <van-notify v-model:show="show" type="success">
+    <van-icon name="bell" style="margin-right: 4px" />
+    <span>查询到如下信息！</span>
+  </van-notify>
   <!-- 搜索框 -->
   <van-search
     v-model="searchValue"
@@ -169,13 +178,13 @@ const onClickAddTag = (childTag: any) => {
     <!--  搜索框右侧内容（自定义插槽）  -->
     <template #action>
       <span @click="onClickCancel">取消</span>
-      <van-notify v-model:show="show" type="success">
-        <van-icon name="bell" style="margin-right: 4px" />
-        <span>查询到如下信息！</span>
-      </van-notify>
     </template>
   </van-search>
-
+  <!-- 通知条 -->
+  <van-notice-bar mode="closeable" color="#1989fa" background="#ecf9ff" left-icon="info-o">
+    提示：您可以选择多个标签来匹配用户
+  </van-notice-bar>
+  <!-- 搜索历史 -->
   <van-cell center title="搜索历史" value="展开" arrow-direction="down" is-link></van-cell>
   <!-- 分割线 -->
   <van-divider :hairline="true" :style="{ color: '#151313', borderColor: '#a29999' }"
@@ -227,6 +236,11 @@ const onClickAddTag = (childTag: any) => {
       </van-row>
     </van-tab>
   </van-tabs>
+
+  <!-- 分割线 -->
+  <van-divider :hairline="true" :style="{ color: '#151313', borderColor: '#a29999' }" />
+
+
 </template>
 
 <style scoped></style>
