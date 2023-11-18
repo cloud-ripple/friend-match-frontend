@@ -70,7 +70,7 @@ const onClickUser = () => {
     </van-space>
   </van-row>
   <!-- 分割线 -->
-  <van-divider :hairline="true" :style="{ color: '#a29999', borderColor: '#b5afaf' }" />
+  <van-divider :hairline="true" :style="{ color: '#151313', borderColor: '#676767' }" />
   <van-grid icon-size="30px" :column-num="4" :gutter="1" :border="false" :clickable="true" square>
     <van-grid-item icon="browsing-history" icon-color="#B7AB6AFF" text="浏览历史"></van-grid-item>
     <van-grid-item icon="photo" icon-color="#76BB0DFF" text="我的相册" />
@@ -82,7 +82,7 @@ const onClickUser = () => {
     <van-grid-item icon="question" icon-color="#D4A569FF" text="关于本站" />
   </van-grid>
   <!-- 分割线 -->
-  <van-divider :style="{ color: '#a29999', borderColor: '#a29999' }"> </van-divider>
+  <van-divider :style="{ color: '#151313', borderColor: '#a29999' }"> </van-divider>
   <!-- 切换账号 -->
   <van-button size="large" icon="" :hairline="true" block text="切换账号" />
   <!-- 退出登录  -->

@@ -17,21 +17,22 @@ const showNotify = () => {
 const searchValue = ref('')
 // 输入完关键字后，确认搜索时触发(包括回车)
 const onSureSearch = (val: any) => {
+  // todo  调用搜索接口
   showNotify()
   showToast(val)
 }
-// 点击输入框右侧搜索时触发
-const onClickSearch = () => {
-  showNotify()
-  showToast(searchValue.value)
+// 点击输入框右侧取消时触发
+const onClickCancel = () => {
+  // 清空搜索框
+  searchValue.value = ''
 }
 
 // tab 标签激活值，默认高亮 name="recommend" 推荐标签
-const active = ref('recommend')
-// 点击标签触发
-const onClickTab = (name: string, title: string, disabled: false) => {
-  // console.log('tab 标签点击：',name,title,disabled) // 点击 tab 标签触发事件回调参数
-  // console.log(`当前激活标签是${active.value}`);
+const activeTabName = ref('recommend')
+// 点击 tab 标签栏触发
+const onClickTab = (tabParamsObj:object) => {
+  //console.log(tabParamsObj) //接收到的参数对象 -> {name: 'following', title: '好友圈', event: PointerEvent, disabled: false}
+  console.log(`主页-当前激活标签是${activeTabName.value}`);
 }
 
 // ------- 推荐伙伴 ----------
@@ -140,13 +141,12 @@ const onClickShare = () => {
     v-model="searchValue"
     shape="round"
     show-action
-    background="#4fc08d"
     placeholder="请输入搜索关键词"
     @search="onSureSearch"
   >
     <!--  搜索框右侧内容（自定义插槽）  -->
     <template #action>
-      <span @click="onClickSearch">搜索</span>
+      <span @click="onClickCancel">取消</span>
       <van-notify v-model:show="show" type="success">
         <van-icon name="bell" style="margin-right: 4px" />
         <span>查询到如下信息！</span>
@@ -154,7 +154,7 @@ const onClickShare = () => {
     </template>
   </van-search>
   <!-- 搜索框下方区域 tab 标签 -->
-  <van-tabs v-model:active="active" type="line" @click-tab="onClickTab">
+  <van-tabs v-model:active="activeTabName" type="line" @click-tab="onClickTab">
     <!-- 推荐伙伴  -->
     <van-tab title="推荐伙伴" name="recommend">
       <!-- 内容展示区域（个人卡片可以抽取成一个组件） -->
@@ -362,22 +362,6 @@ const onClickShare = () => {
         <template #num>
           <van-icon name="eye" size="12">浏览量：8</van-icon>
         </template>
-        <!-- 自定义左侧图片 -->
-        <!--        <template #thumb>-->
-        <!--          <van-image-->
-        <!--            lazy-load-->
-        <!--            width="90"-->
-        <!--            height="100"-->
-        <!--            fit="cover"-->
-        <!--            position="center"-->
-        <!--            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"-->
-        <!--          >-->
-        <!--            <template v-slot:loading>-->
-        <!--              <van-loading type="spinner" size="20" />-->
-        <!--            </template>-->
-        <!--          </van-image>-->
-        <!--        </template>-->
-        <!-- 自定义右下角内容 -->
         <template #footer>
           <!-- 评论 -->
           <van-button size="mini">

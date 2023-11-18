@@ -1,13 +1,18 @@
 <script setup lang="ts">
-import { showToast } from 'vant'
 import { ref } from 'vue'
+import { useRouter } from "vue-router";
 
+const router = useRouter()
 const onClickLeft = () => history.back()
-const onClickRight = () => alert('点击了右侧按钮')
+const onClickRight = () => {
+  router.push({
+    name: 'sousuo'
+  })
+}
 // 默认底部 tab 栏高亮标签索引
 const active = ref('home')
 // 顶部导航栏中间标题
-const navTitle = ref('主页')
+const navTitle = ref('伙伴匹配')
 // 切换底部tab栏标签时触发，更换当前激活的标签索引值name
 const tabChange = (name: string) => {
   // 切换标签时，修改对应导航栏标题
@@ -23,7 +28,7 @@ const tabChange = (name: string) => {
       navTitle.value = '消息会话'
       break
     default:
-      navTitle.value = '主页'
+      navTitle.value = '伙伴匹配'
   }
 }
 

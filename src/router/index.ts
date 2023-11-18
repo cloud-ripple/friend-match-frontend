@@ -4,7 +4,9 @@ import Home from '@/pages/home/Index.vue'
 import User from '@/pages/user/Index.vue'
 import Team from '@/pages/team/Index.vue'
 import Message from '@/pages/message/Index.vue'
-const router = createRouter({
+import Search from '@/pages/search/Index.vue'
+
+export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     // 一级路由
@@ -15,27 +17,33 @@ const router = createRouter({
       children: [
         {
           path: '', //当访问路径默认为空时，该组件页面也会展示
-          name: 'home',
+          name: 'home', //主页
           component: Home
         },
         {
           path: 'team', //当访问路径默认为空时，该组件页面也会展示
-          name: 'duiwu',
+          name: 'duiwu', //队伍页
           component: Team
         },
         {
           path: 'message', //当访问路径默认为空时，该组件页面也会展示
-          name: 'xiaoxi',
+          name: 'xiaoxi', //消息页
           component: Message
         },
         {
           path: 'user', //当访问路径默认为空时，该组件页面也会展示
-          name: 'geren',
+          name: 'geren', //个人中心页
           component: User
-        }
+        },
+
       ]
-    }
+    },
+    {
+      path: '/search', //当访问路径默认为空时，该组件页面也会展示
+      name: 'sousuo', //搜索页
+      component: Search
+    },
   ]
 })
 
-export default router
+
