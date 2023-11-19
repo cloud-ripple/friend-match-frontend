@@ -1,13 +1,12 @@
 <script setup lang="ts">
-// 控制提示
-import { onBeforeMount, ref } from 'vue'
-import UserCard from '@/components/UserCard.vue'
+import { onBeforeMount, onMounted, ref } from "vue";
 
-// 控制加载提示是否显示
+// 控制加载提示（进入当前搜索结果页时默认显示）
 const loading = ref(true)
 
-// 在组件挂载之前加载提示
-onBeforeMount(() => {
+// 在组件挂载完毕后关闭控制加载提示
+onMounted(() => {
+  // 1s 后关闭加载提示
   setTimeout(() => {
     loading.value = false
   }, 1000)
@@ -40,20 +39,13 @@ const onClickTab = (tabParamsObj: any) => {
     <!-- 用户  -->
     <van-tab title="用户" name="users">
       <UserCard></UserCard>
-
     </van-tab>
     <!-- 综合  -->
-    <van-tab title="综合" name="overall">
-      综合内容
-    </van-tab>
+    <van-tab title="综合" name="overall"> 综合内容 </van-tab>
     <!-- 队伍  -->
-    <van-tab title="队伍" name="teams">
-      队伍内容
-    </van-tab>
+    <van-tab title="队伍" name="teams"> 队伍内容 </van-tab>
     <!-- 帖子文章  -->
-    <van-tab title="帖子文章" name="articles">
-      帖子内容
-    </van-tab>
+    <van-tab title="帖子文章" name="articles"> 帖子内容 </van-tab>
   </van-tabs>
 </template>
 

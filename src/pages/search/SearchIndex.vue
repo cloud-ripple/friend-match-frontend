@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import SearchBar from "@/components/SearchBar.vue";
-
+import { searchUsersByTags } from '@/apis/userAPI'
 
 //  -------搜索历史区域---------
 
@@ -124,11 +124,30 @@ const onClickAddTag = (childTag: any) => {
     selectedTagsList.value.push(childTag)
   }
 }
+
+// 控制加载提示是否显示
+const loading = ref(false)
+
+// 确认搜索时触发的回调---获取用户列表-根据多个标签搜索用户
+const getUsersList = async (val: any) => {
+  console.log('来自子组件SearchBar传递的搜索值 =', val)
+  // 调用后台接口，获取数据
+  const result = await searchUsersByTags(val)
+  console.log(result.data)
+  return result.data
+}
 </script>
 
 <template>
-  <!-- 搜索框 -->
-  <SearchBar></SearchBar>
+  <!-- 搜索框，使用子组件身上注册的 ClickSearch 事件，并绑定一个回调函数，当子组件触发 emit('事件名',参数) 时，此处的回调函数会调用，并接收传入郭磊的参数 -->
+  <SearchBar @getUsersAPI="getUsersList"></SearchBar>
+  <!-- 加载中提示 -->
+  <van-loading vertical v-if="loading">
+    <template #icon>
+      <van-icon name="star-o" size="40" />
+    </template>
+    数据加载中...
+  </van-loading>
   <!-- 通知条 -->
   <van-notice-bar mode="closeable" color="#1989fa" background="#ecf9ff" left-icon="info-o">
     提示：您可以选择多个标签来匹配用户
@@ -185,9 +204,6 @@ const onClickAddTag = (childTag: any) => {
       </van-row>
     </van-tab>
   </van-tabs>
-
-
-
 </template>
 
 <style scoped></style>

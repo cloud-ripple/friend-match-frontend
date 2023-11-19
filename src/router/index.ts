@@ -4,7 +4,7 @@ import Home from '@/pages/home/Index.vue'
 import User from '@/pages/user/Index.vue'
 import Team from '@/pages/team/Index.vue'
 import Message from '@/pages/message/Index.vue'
-import SearchIndex from '@/pages/search/Index.vue'
+import SearchIndex from '@/pages/search/SearchIndex.vue'
 import SearchResult from '@/pages/search/SearchResult.vue'
 
 export const router = createRouter({
