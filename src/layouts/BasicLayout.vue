@@ -56,7 +56,7 @@ const icon = {
   </van-nav-bar>
   <!--  中间区域- 二级路由出口 -->
   <div id="content">
-    <RouterView />
+    <RouterView :key="$route.fullPath"/>
   </div>
 
   <!-- 底部tab栏 -->

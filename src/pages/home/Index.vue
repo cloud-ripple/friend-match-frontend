@@ -109,6 +109,7 @@ const onChangeStar = (val: number) => {
 const onClickShare = () => {
   console.log('点击了分享')
 }
+
 </script>
 
 <template>
@@ -147,8 +148,8 @@ const onClickShare = () => {
   <van-tabs v-model:active="activeTabName" type="line" @click-tab="onClickTab">
     <!-- 推荐伙伴  -->
     <van-tab title="推荐伙伴" name="recommend">
-      <!-- 内容展示区域（用户个人卡片可以抽取成一个组件） -->
-      <UserCard></UserCard>
+      <!-- 内容展示区域（用户个人卡片可以抽取成一个组件-这里可以单独写一个接口用于展示推荐的用户（比如按照标签数排序推荐）） -->
+<!--      <UserCard></UserCard>-->
     </van-tab>
     <!-- 好友圈 -->
     <van-tab title="好友圈" name="following">

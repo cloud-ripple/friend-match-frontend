@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { onBeforeUpdate, onMounted, ref } from 'vue'
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { showNotify } from 'vant'
 
 // 获取路由器
@@ -11,7 +11,7 @@ const route = useRoute()
 // 1. 子组件向父组件传递数据，通过defineEmits在该组件身上注册指定的事件名，得到一个 emit
 // 2. 当其它组件使用该子组件时，可以用 @事件名="callbackFunction" 直接在子组件标签中添加使用其身上的 ClickSearch事件，并给该事件绑定一个回调函数
 // 3. 通过  emit('事件名', 参数数据) 方式触发(调用)其它组件中对应事件名所绑定的函数，并能接收到额外传入的参数(可多个)
-const emit = defineEmits(['getUsersAPI']) //在当前组件身上注册声明一个自定义事件
+const emit = defineEmits(['getUsersAPI', 'showSearchIndex']) //在当前组件身上注册声明自定义事件
 
 // 搜索框当前输入值
 const searchValue = ref('')
@@ -23,20 +23,34 @@ const onSureSearch = (val: string) => {
     showNotify({ type: 'warning', message: '搜索内容不能为空！', duration: 800 })
     return
   }
-  console.log('SearchBar组件-搜索值 =', val)
+  console.log('SearchBar.vue 搜索值 =', val)
+  // todo 从后台查询数据逻辑
   // 触发调用 其它组件在使用<SearchBar/>子组件时 所添加的ClickSearch事件绑定(指定)的函数，并给该函数传入指定的参数
   emit('getUsersAPI', searchValue.value.trim()) //简单点说 -> 此处调用接口获取用户数据
 
   // 确认搜索后跳转到搜索结果页
-  router.push('/result')
+  // router.push('/result')
 }
 
-// 点击搜索框时触发
+// 点击/进入搜索框时触发
 const onClickInput = () => {
   // 通过路由path或者name来判断当前位于那个组件页面，如果是搜索结果页面(SearchResult.vue)在点击搜索框时
-  // 让路由直接跳转到搜索主页(SearchIndex.vue)
-  if (route.path === '/result') {
-    router.push('/search') //直接进入搜索页
+  // if (route.path === '/result') {
+  //   router.push('/search') //直接进入搜索页
+  // }
+
+  // 1.如果当前显示的是搜索结果页区域时，此时用户又点击了搜索框，并且搜索框内没有内容，
+  // 2.需要触发调用SearchIndex.vue 组件中showSearchIndex事件绑定的回调函数 showSearchIndex来显示默认的搜索页面
+  // (达到页面跳转的效果，其作用原理是：通过 v-show v-if v-else-if 来动态展示对应的页面区域)
+  // 3.从而实现在一个组件中(默认搜索主页SearchIndex.vue)动态切换展示 --空状态区域、默认搜索页区域、搜索结果展示区域-- 等3个部分的页面内容 )
+  /*
+    在 SearchIndex.vue 组件中：
+   <!-- 搜索框，使用子组件身上注册的 ClickSearch 事件，并绑定一个回调函数，当子组件触发 emit('事件名',参数) 时，此处的回调函数会调用，并接收传入郭磊的参数 -->
+   <SearchBar @getUsersAPI="getUsersList" @showSearchIndex="showSearchIndex"></SearchBar>
+   */
+  if (searchValue.value.trim() === '') {
+    //触发调用该事件对应的回调函数，并传入一个 false 值
+    emit('showSearchIndex')
   }
 }
 
