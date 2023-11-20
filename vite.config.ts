@@ -6,6 +6,8 @@ import vue from '@vitejs/plugin-vue'
 // 就可以直接在模板中使用 Vant 组件了，unplugin-vue-components 会解析模板并自动注册对应的组件, @vant/auto-import-resolver 会自动引入对应的组件样式。
 import Components from 'unplugin-vue-components/vite'
 import { VantResolver } from '@vant/auto-import-resolver'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +15,11 @@ export default defineConfig({
     vue(),
     Components({
       resolvers: [VantResolver()]
+    }),
+    // 修改 svg 相关配置
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(__dirname, './src/assets/svg')]
     })
   ],
   resolve: {

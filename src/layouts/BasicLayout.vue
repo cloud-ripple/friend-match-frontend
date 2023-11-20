@@ -3,7 +3,9 @@ import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
+// 导航栏左侧
 const onClickLeft = () => history.back()
+// 导航栏右侧
 const onClickRight = () => {
   router.push({
     name: 'sousuo'
@@ -14,7 +16,6 @@ const activeName = ref(0)
 // 顶部导航栏中间标题
 const navTitle = ref('主页')
 // 切换底部tab栏标签时触发，更换当前激活的标签索引值name
-
 const tabChange = (index: any) => {
   // console.log('index = ', index)
   activeName.value = index
@@ -56,6 +57,10 @@ const route = useRoute()
     left-text="返回"
     right-text="按钮"
     left-arrow
+    fixed
+    placeholder
+    safe-area-inset-top
+    clickable
     @click-left="onClickLeft"
     @click-right="onClickRight"
   >
