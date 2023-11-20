@@ -25,7 +25,7 @@ const onClickSearch = () => {
 }
 
 // tab 标签激活值，默认高亮 name="recommend"的标签
-const active = ref('recommend')
+const active = ref('open-team')
 // 点击标签触发
 const onClickTab = (name: string, title: string, disabled: false) => {
   // console.log('tab 标签点击：',name,title,disabled) // 点击 tab 标签触发事件回调参数

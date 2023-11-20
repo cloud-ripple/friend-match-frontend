@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import { showToast } from 'vant'
 // 图片预览组件辅助函数
 import { showImagePreview } from 'vant'
-import UserCard from "@/components/UserCard.vue";
 
 // 控制通知栏是否显示
 const show = ref(false)

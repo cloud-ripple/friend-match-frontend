@@ -6,6 +6,7 @@ import Team from '@/pages/team/Index.vue'
 import Message from '@/pages/message/Index.vue'
 import SearchIndex from '@/pages/search/SearchIndex.vue'
 import SearchResult from '@/pages/search/SearchResult.vue'
+import CreateIndex from '@/pages/create/Index.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,6 +26,11 @@ export const router = createRouter({
           path: 'team',
           name: 'duiwu', //队伍页
           component: Team
+        },
+        {
+          path: 'create',
+          name: 'chuangzuo', //搜索结果页
+          component: CreateIndex
         },
         {
           path: 'message',
@@ -47,6 +53,7 @@ export const router = createRouter({
       path: '/result',
       name: 'jieguo', //搜索结果页
       component: SearchResult
-    }
+    },
+
   ]
 })
