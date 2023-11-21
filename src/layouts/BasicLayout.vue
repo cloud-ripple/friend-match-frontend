@@ -38,7 +38,6 @@ const tabChange = (index: any) => {
       navTitle.value = '主页'
       break
   }
-
 }
 
 // 图片
@@ -66,13 +65,11 @@ const route = useRoute()
   >
     <!--导航栏右侧-内容插槽 -->
     <template #right>
-      <van-icon name="search" size="18" />
+      <van-icon name="search" size="25" />
     </template>
   </van-nav-bar>
   <!--  中间区域- 二级路由出口 -->
-  <div id="content">
-    <RouterView />
-  </div>
+  <RouterView />
 
   <!-- 底部tab栏 -->
   <van-tabbar
