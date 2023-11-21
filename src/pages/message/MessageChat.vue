@@ -59,7 +59,7 @@ const fieldText = ref('')
         <van-col span="1">
           <svg-icon
             icon-class="left-chat"
-            style="margin-left: 4px; padding-top: 20px; fill: #ffffffff"
+            style="margin-left: 3px; padding-top: 20px; fill: #ffffffff"
           ></svg-icon>
         </van-col>
         <van-col span="18">
@@ -74,13 +74,13 @@ const fieldText = ref('')
     </van-space>
   </div>
 
-  <!-- 底部输入框区域 -->
+  <!-- 下方输入框区域 -->
   <van-space direction="vertical" fill style="padding: 8px 2px; margin: 10px">
     <van-row gutter="10">
-      <van-col sapn="2">
-        <van-icon name="volume-o" size="25" style="margin-top: 10px" />
+      <van-col sapn="1">
+        <van-icon name="add-o" size="35" color="#996AE6FF" style="margin-top: 5px" />
       </van-col>
-      <van-col span="18">
+      <van-col span="17">
         <van-field
           v-model="fieldText"
           rows="1"
@@ -91,15 +91,31 @@ const fieldText = ref('')
           clickable
           autofocus
           placeholder="请输入信息"
-          style="background: #f4f3f3"
+          style="background: #ffffffff;border: 1px #996AE6FF solid"
         >
         </van-field>
       </van-col>
-      <van-col span="4">
-        <van-button type="primary">发送</van-button>
+      <van-col span="3">
+        <van-button color="linear-gradient(to right, #996AE6FF, #D93D97FF)">
+          <template #icon>
+            <van-icon name="guide-o" size="30"></van-icon>
+          </template>
+        </van-button>
       </van-col>
     </van-row>
   </van-space>
+
+  <!-- 底部功能选择区域 -->
+  <van-grid icon-size="30px" :column-num="4" :gutter="1" :border="false" :clickable="true" square>
+    <van-grid-item icon="photo" icon-color="#444343" text="相册" />
+    <van-grid-item icon="photograph" icon-color="#444343" text="拍摄" />
+    <van-grid-item icon="location" icon-color="#444343" text="位置" />
+    <van-grid-item icon="phone" icon-color="#444343" text="电话" />
+    <van-grid-item icon="contact" icon-color="#444343" text="名片" />
+    <van-grid-item icon="card" icon-color="#444343" text="文件" />
+    <van-grid-item icon="bookmark" icon-color="#444343" text="我的收藏" />
+    <van-grid-item icon="more" icon-color="#444343" text="更多" />
+  </van-grid>
 </template>
 
 <style scoped></style>
