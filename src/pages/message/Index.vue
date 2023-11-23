@@ -31,124 +31,8 @@ const onClickRow = (val: any) => {
     direction="vertical"
     fill
     style="padding: 5px; margin-bottom: 4px; background: #fbfafa"
-    v-for="i in 30"
+    v-for="i in 7"
     :key="i"
-  >
-    <van-swipe-cell>
-      <van-row @click="onClickRow('用户昵称')">
-        <van-col span="4">
-          <!-- 用户头像-->
-          <van-image
-            round
-            fit="cover"
-            width="50"
-            height="50"
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-            @click="onClickUser"
-          >
-            <template v-slot:loading>
-              <van-loading type="spinner" size="15" />
-            </template>
-          </van-image>
-        </van-col>
-        <van-col span="14">
-          <!-- 用户昵称（最大长度为6） -->
-          <span
-            class="custom-title"
-            style="
-              display: inline-block;
-              color: #191818;
-              font-size: 15px;
-              margin-bottom: 6px;
-              font-weight: 600;
-            "
-            >哈忘语今天咩来</span
-          >
-          <van-text-ellipsis
-            rows="1"
-            content="在干嘛尼，出来吃饭呀！"
-            style="color: #868483; font-size: 14px"
-          />
-        </van-col>
-        <van-col span="4">
-          <span class="custom-title" style="display: inline-block; color: #b4b1ad; font-size: 12px"
-            >2023-11-20
-          </span>
-          <van-badge :content="22" max="99" :show-zero="false" :offset="[5, 18]"></van-badge>
-        </van-col>
-      </van-row>
-      <template #left>
-        <van-button square type="success" class="button" text="主页" />
-      </template>
-      <template #right>
-        <van-button square type="primary" class="button" text="置顶" />
-        <van-button square type="warning" class="button" text="标为未读" />
-        <van-button square type="danger" class="button" text="删除" />
-      </template>
-    </van-swipe-cell>
-  </van-space>
-  <van-space
-    direction="vertical"
-    fill
-    style="padding: 5px; margin-bottom: 4px; background: #fbfafa"
-  >
-    <van-swipe-cell>
-      <van-row @click="onClickRow('用户昵称')">
-        <van-col span="4">
-          <!-- 用户头像-->
-          <van-image
-            round
-            fit="cover"
-            width="50"
-            height="50"
-            src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-            @click="onClickUser"
-          >
-            <template v-slot:loading>
-              <van-loading type="spinner" size="15" />
-            </template>
-          </van-image>
-        </van-col>
-        <van-col span="14">
-          <!-- 用户昵称（最大长度为6） -->
-          <span
-            class="custom-title"
-            style="
-              display: inline-block;
-              color: #191818;
-              font-size: 15px;
-              margin-bottom: 6px;
-              font-weight: 600;
-            "
-            >哈忘语今天咩来</span
-          >
-          <van-text-ellipsis
-            rows="1"
-            content="在干嘛尼，出来吃饭呀！"
-            style="color: #868483; font-size: 14px"
-          />
-        </van-col>
-        <van-col span="4">
-          <span class="custom-title" style="display: inline-block; color: #b4b1ad; font-size: 12px"
-            >2023-11-20
-          </span>
-          <van-badge :content="22" max="99" :show-zero="false" :offset="[5, 18]"></van-badge>
-        </van-col>
-      </van-row>
-      <template #left>
-        <van-button square type="success" class="button" text="主页" />
-      </template>
-      <template #right>
-        <van-button square type="primary" class="button" text="置顶" />
-        <van-button square type="warning" class="button" text="标为未读" />
-        <van-button square type="danger" class="button" text="删除" />
-      </template>
-    </van-swipe-cell>
-  </van-space>
-  <van-space
-    direction="vertical"
-    fill
-    style="padding: 5px; margin-bottom: 4px; background: #fbfafa"
   >
     <van-swipe-cell>
       <van-row @click="onClickRow('用户昵称')">
@@ -210,3 +94,7 @@ button {
   height: 100%;
 }
 </style>
+
+
+
+

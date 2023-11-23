@@ -1,7 +1,18 @@
 <script setup lang="ts">
+
+// 获取路由器
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 // 点击用户头像
 const onClickUser = () => {
   console.log('个人中心-点击了用户头像')
+}
+
+// 修改个人资料
+const onClickEditInfo = () => {
+  console.log('个人中心-点击了修改资料')
+  router.push('/edit')
 }
 </script>
 
@@ -43,7 +54,7 @@ const onClickUser = () => {
         </template>
         <!-- 自定义单元格value区域（最右侧） -->
         <template #value>
-          <span class="custom-title">编辑资料</span>
+          <span class="custom-title" @click="onClickEditInfo">编辑资料</span>
         </template>
       </van-cell>
     </van-col>

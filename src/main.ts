@@ -13,4 +13,5 @@ app.use(Lazyload)
 app.use(createPinia())
 app.use(router)
 app.component('svg-icon', SvgIcon)
+
 app.mount('#app')

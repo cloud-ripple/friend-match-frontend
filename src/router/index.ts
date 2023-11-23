@@ -8,13 +8,15 @@ import SearchIndex from '@/pages/search/SearchIndex.vue'
 import SearchResult from '@/pages/search/SearchResult.vue'
 import CreateIndex from '@/pages/create/Index.vue'
 import MessageChat from '@/pages/message/MessageChat.vue'
+import UserInfo from "@/pages/user/UserInfo.vue";
+
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     // 一级路由
     {
-      path: '/', //默认页
+      path: '/', //默认通用布局页
       component: BasicLayout,
       // 二级路由
       children: [
@@ -42,7 +44,12 @@ export const router = createRouter({
           path: 'user',
           name: 'geren', //个人中心页
           component: UserIndex
-        }
+        },
+        {
+          path: 'edit',
+          name: 'bianji', //个人资料编辑页
+          component: UserInfo,
+        },
       ]
     },
     {
@@ -59,6 +66,6 @@ export const router = createRouter({
       path: '/chat',
       name: 'liaotian', //用户聊天页
       component: MessageChat
-    }
+    },
   ]
 })
