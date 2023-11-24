@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type UserProps from '@/interface/UserAPI'
+import type UserProps from '@/interface/UserProps'
 // ------- 推荐伙伴 ----------
 // 加好友
 const onClickAddFriend = () => {

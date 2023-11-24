@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import type UserProps from '@/interface/UserAPI'
+import type UserProps from '@/interface/UserProps'
 
 // 控制加载提示（进入当前搜索结果页时默认显示）
 const loading = ref(true)

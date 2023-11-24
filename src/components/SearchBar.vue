@@ -18,13 +18,11 @@ const searchValue = ref('')
 
 // 输入完关键字后，确认搜索时(包括回车)触发该回调
 const onSureSearch = (val: string) => {
-  if (val.trim().length === 0) {
-    // 警告通知
-    showNotify({ type: 'warning', message: '搜索内容不能为空！', duration: 800 })
-    return
-  }
-  console.log('SearchBar.vue 搜索值 =', val)
-  // todo 从后台查询数据逻辑
+  // if (val.trim().length === 0) {
+  //   // 警告通知
+  //   showNotify({ type: 'warning', message: '搜索内容不能为空！', duration: 800 })
+  //   return
+  // }
   // 触发调用 其它组件在使用<SearchBar/>子组件时 所添加的ClickSearch事件绑定(指定)的函数，并给该函数传入指定的参数
   emit('getUsersAPI', searchValue.value.trim()) //简单点说 -> 此处调用接口获取用户数据
 

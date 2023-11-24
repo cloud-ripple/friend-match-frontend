@@ -2,24 +2,34 @@
 import { ref } from 'vue'
 import type { User } from '@/models/user'
 import { useRouter } from 'vue-router'
+import { updateUserAPI } from '@/apis/userAPI'
+import { showNotify } from 'vant'
 
 const router = useRouter()
-// 导航栏左侧
-const onClickLeft = () => history.back()
-// 导航栏右侧
+// 点击导航栏左侧
+const onClickLeft = () => {
+  // 保存用户修改信息
+  save()
+  // 返回
+  history.back()
+}
+
+// 点击导航栏右侧
 const onClickRight = () => {
+  // 保存用户修改信息
+  save()
   router.push({
     name: 'sousuo'
   })
 }
 
-// 当前用户信息
-const user = ref<User>({
-  id: 1, // id
+// 当前登录用户信息
+const user: any = ref<User>({
+  id: 3, // id
   username: '云漪', // 用户昵称
   userAccount: 'ripple', // 用户账号
   avatarUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg', // 用户头像
-  gender: 0, // 用户性别
+  gender: 1, // 用户性别
   userPassword: '11111111', //用户密码
   phone: '13267891234', // 电话
   email: '1493440094@qq.com', //邮箱
@@ -29,7 +39,7 @@ const user = ref<User>({
   isDelete: 0, //逻辑删除
   userRole: 1, //用户角色
   planetCode: 1, //星球编号
-  tags: "['java', '网上冲浪']", //用户所拥有的标签
+  tags: '["java", "网上冲浪"]', //用户所拥有的标签
   area: '苏州市', //所在地区
   selfDesc: '心动不如行动', //自我描述，个性签名
   fansNum: 0 //粉丝数量
@@ -39,24 +49,17 @@ const user = ref<User>({
 const avatarUrl = ref([{ url: user.value.avatarUrl }])
 
 // 单选框的值，根据 name 标识符匹配
-const checkedName = ref('')
-// 单选框组的值
-const changeRadio = () => {
-  console.log('当前选择的性别，', checkedName.value)
-}
-
-// 控制选择器是否显示
-const showPicker = ref(false)
-// 选择提交、
-const onConfirm = () => {
-  console.log('确认选择')
+const checkedName = ref(user.value.gender.toString())
+// 切换单选框时触发
+const changeRadio = (val: any) => {
+  // console.log('当前选择的性别，', checkedName.value, val)
 }
 
 // 控制弹窗是否显示
 const showDialog = ref(false)
 // 编辑信息，当前点击每一行单元格时触发该回调（接收修改字段的 name，具体的值）
 const EditInfo = (name: any, val: any) => {
-  console.log('修改资料-', name, val)
+  console.log('修改资料: ', name, val)
   switch (name) {
     case 'selfDesc':
       dialogTitle.value = '个性签名'
@@ -103,22 +106,50 @@ const EditInfo = (name: any, val: any) => {
   showDialog.value = true
   // 修改当前输入框的值
   fieldInput.value = val
+  // 修改当前编辑的属性字段名
+  updateName.value = name
 }
 
 // 弹窗标题
 const dialogTitle = ref('')
 // 输入框当前值
 const fieldInput = ref('')
+// 标识当前正在编辑的属性名字段
+const updateName = ref('')
 
 // 弹窗确认
 const confirmDialog = () => {
-  // todo 调用接口
+  // console.log('当前正在修改的属性名 = ', updateName.value, ' 输入框值 = ', fieldInput.value)
+  // todo 先修改内存中的当前用户属性信息，调用接口时直接传入该用户即可
+  if (updateName.value === 'gender') {
+    // 如果修改的是性别属性，需要把单选框的值赋给用户的性别
+    user.value.gender = Number(checkedName.value)
+  } else {
+    // 其它属性都是输入框值修改
+    user.value[`${updateName.value}`] = fieldInput.value
+  }
+  // 此处点击弹窗确认后，可以直接调用接口更新数据，但考虑到每次确认都会调用接口
+  // 不如直接在导航栏的函数中调用，当用户点击返回、搜索时再更新保存
 }
+
+// 保存用户信息（此方法才是真正更新后台用户信息）
+const save = () => {
+  // 调用接口，并传入当前用户
+  updateUserAPI(user.value)
+    .then((res) => {
+      if (res.data.code === 200) {
+        // 成功通知
+        showNotify({ type: 'success', message: '信息保存成功！', duration: 800 })
+      }
+    })
+    .catch((error) => {
+      // 错误通知
+      showNotify({ type: 'danger', message: '保存失败了！', duration: 1000 })
+    })
+}
+
 // 弹窗取消
 const cancelDialog = () => {}
-
-// 提交表单
-const onSubmit = () => {}
 </script>
 
 <template>
@@ -157,7 +188,7 @@ const onSubmit = () => {}
     v-model:show="showDialog"
     :title="dialogTitle"
     show-cancel-button
-    @confirm="confirmDialog"
+    @confirm="confirmDialog()"
     @cancel="cancelDialog"
   >
     <van-cell-group inset>
@@ -183,8 +214,8 @@ const onSubmit = () => {}
 
       <!-- 性别 -->
       <van-radio-group v-model="checkedName" @change="changeRadio" v-if="dialogTitle === '性别'">
-        <van-radio name="男">男</van-radio>
-        <van-radio name="女">女</van-radio>
+        <van-radio name="1">男</van-radio>
+        <van-radio name="0">女</van-radio>
       </van-radio-group>
 
       <!--电话 -->
@@ -279,7 +310,7 @@ const onSubmit = () => {}
     <van-cell
       title="性别"
       is-link
-      :value="user.gender === 0 ? '男' : '女'"
+      :value="user.gender === 1 ? '男' : '女'"
       size="large"
       @click="EditInfo('gender', user.gender)"
     />
