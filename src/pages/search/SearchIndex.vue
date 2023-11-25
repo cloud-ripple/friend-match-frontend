@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onBeforeMount, onMounted, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import SearchBar from '@/components/SearchBar.vue'
 import { searchUsersByTagsAPI } from '@/apis/userAPI'
 import SearchResult from '@/pages/search/SearchResult.vue'
@@ -124,7 +124,7 @@ const showSearchIndex = () => {
 <template>
   <!-- 1. 顶部-搜索框区域，使用子组件身上注册的 ClickSearch 事件，并绑定一个回调函数，当子组件触发 emit('事件名',参数) 时，此处的回调函数会调用，并接收传入郭磊的参数 -->
   <SearchBar @getUsersAPI="getUsersList" @showSearchIndex="showSearchIndex"></SearchBar>
-  <!--            2 3 4 区域互斥，在当前页面中只会同时展示其中一个         -->
+  <!--            2 3 4 区域互斥，在当前页面中只会同时展示其中一个 -->
   <!-- 2. 空状态区域，当搜索结果没有匹配到任何数据时显示（由 isEmpty 动态控制展示）  -->
   <van-empty description="抱歉！暂时没有匹配到相关搜索结果" v-show="isEmpty">
     <van-button round type="primary" class="bottom-button" @click="onClickEmptyReturn">
@@ -135,7 +135,7 @@ const showSearchIndex = () => {
   <div v-if="usersList.length === 0 && !isEmpty">
     <!-- 通知条 -->
     <van-notice-bar mode="closeable" color="#1989fa" background="#ecf9ff" left-icon="info-o">
-      注意：当选了多个标签时，搜索内容不参与匹配条件 !
+      注意：当选了多个标签时，搜索内容不参与匹配条件
     </van-notice-bar>
     <!-- 搜索历史 -->
     <van-cell center title="搜索历史" value="展开" arrow-direction="down" is-link></van-cell>

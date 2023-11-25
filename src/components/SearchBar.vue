@@ -25,9 +25,6 @@ const onSureSearch = (val: string) => {
   // }
   // 触发调用 其它组件在使用<SearchBar/>子组件时 所添加的ClickSearch事件绑定(指定)的函数，并给该函数传入指定的参数
   emit('getUsersAPI', searchValue.value.trim()) //简单点说 -> 此处调用接口获取用户数据
-
-  // 确认搜索后跳转到搜索结果页
-  // router.push('/result')
 }
 
 // 点击/进入搜索框时触发
@@ -73,6 +70,7 @@ onMounted(() => {
 </script>
 
 <template>
+
   <!-- 搜索框 -->
   <van-search
     v-model="searchValue"
@@ -80,13 +78,15 @@ onMounted(() => {
     show-action
     autofocus
     placeholder="请输入搜索关键词"
+    @click-left-icon="onSureSearch(searchValue.trim())"
     @search="onSureSearch(searchValue.trim())"
     @click-input="onClickInput"
   >
-    <!--  搜索框右侧内容（自定义插槽）  -->
+    <!--  搜索框外右侧内容（自定义插槽）  -->
     <template #action>
       <span @click="onClickCancel">取消</span>
     </template>
+
   </van-search>
 </template>
 

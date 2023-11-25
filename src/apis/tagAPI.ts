@@ -1,6 +1,6 @@
 // 标签相关接口
 import myAxios from '@/apis/request'
-import type { Tag } from '@/models/tag'
+
 
 /**
  * 查询所有父标签(即所有分类标签)
