@@ -90,7 +90,7 @@ const onClickDelTeam = () => {
   <van-tabs v-model:active="active" type="line" @click-tab="onClickTab">
     <!-- 队伍大厅  -->
     <van-tab title="队伍大厅" name="open-team">
-      <!-- 内容展示区域（个人卡片可以抽取成一个组件） -->
+      <!-- 队伍展示区域（卡片可以抽取成一个组件） -->
       <van-card
         desc="队伍描述信息"
         title="Java 小分队"
@@ -99,64 +99,61 @@ const onClickDelTeam = () => {
       >
         <!-- 自定义描述 -->
         <template #desc>
-          <van-space align="center" size="5px" style="padding: 5px" wrap fill>
-            <span>队伍描述：java 技术交流圈子</span>
-            <span
-              >房间状态：<van-tag plain round color="green" size="medium" :show="true"
-                >公开</van-tag
-              ></span
-            >
-            <br />
-            <span>成立日期：2023-11-16</span>
-            <span><van-icon name="location" size="12">地区：江苏</van-icon></span>
+          <van-space size="7px" style="font-size: 13px; color: #4b4949" wrap fill>
+            <span>描述：java 技术交流圈子</span>
+            <span>状态：<van-tag plain round color="green">已满员</van-tag></span>
+            <van-icon name="flag-o" size="13">队长：bobo</van-icon>
           </van-space>
         </template>
         <!-- 自定义数量  -->
         <template #price>
-          <van-icon name="friends" size="12">成员数：8 / 30 人</van-icon>
+          <van-space size="19px" fill>
+            <van-icon name="friends" size="13" color="#4b4949"> 8/30 人</van-icon>
+            <van-icon name="location" size="13">江苏</van-icon>
+          </van-space>
         </template>
         <!-- 自定义右下角内容 -->
         <template #footer>
           <van-button size="mini" @click="onClickApplyTeam">
-            <van-icon name="add" size="14">申请入队</van-icon>
+            <van-icon name="add" size="13">申请入队</van-icon>
           </van-button>
           <van-button size="mini" @click="onClickDetailTeam">
-            <van-icon name="info" size="14">队伍详情</van-icon>
+            <van-icon name="info" size="13">详情</van-icon>
           </van-button>
         </template>
       </van-card>
     </van-tab>
     <!-- 我的队伍 -->
     <van-tab title="我的队伍" name="my-team">
+      <!-- 队伍展示区域（卡片可以抽取成一个组件） -->
       <van-card
-        tag="本人创建"
         desc="队伍描述信息"
-        title="队伍名"
-        thumb="https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg"
+        title="Java 小分队"
+        thumb="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
         centered
       >
         <!-- 自定义描述 -->
         <template #desc>
-          <van-space align="center" size="5px" style="padding: 5px" wrap fill>
-            <span>队伍描述：Vue、前端技术交流</span>
-            <span
-            >房间状态：<van-tag plain round color="green" size="medium" :show="true"
-            >公开</van-tag
-            ></span
-            >
-            <br />
-            <span>成立日期：2023-11-16</span>
-            <span><van-icon name="location" size="12">地区：南京</van-icon></span>
+          <van-space size="7px" style="font-size: 13px; color: #4b4949" wrap fill>
+            <span>描述：java 技术交流圈子</span>
+            <span>状态：<van-tag plain round color="green">已满员</van-tag></span>
+            <van-icon name="flag-o" size="13">队长：bobo</van-icon>
           </van-space>
         </template>
         <!-- 自定义数量  -->
         <template #price>
-          <van-icon name="friends" size="12">成员数：8 / 30 人</van-icon>
+          <van-space size="19px" fill>
+            <van-icon name="friends" size="13" color="#4b4949"> 8/30 人</van-icon>
+            <van-icon name="location" size="13">江苏</van-icon>
+          </van-space>
         </template>
         <!-- 自定义右下角内容 -->
         <template #footer>
           <van-button size="mini" @click="onClickLeaveTeam">
-            <van-icon name="minus" size="14">退出队伍</van-icon>
+            <van-icon name="cross" size="14">退出队伍</van-icon>
+          </van-button>
+          <van-button size="mini" @click="onClickDetailTeam">
+            <van-icon name="info" size="13">详情</van-icon>
           </van-button>
           <van-button size="mini" @click="onClickDelTeam">
             <van-icon name="delete" size="14">解散队伍</van-icon>

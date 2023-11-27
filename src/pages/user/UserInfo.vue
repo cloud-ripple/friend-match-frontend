@@ -117,13 +117,16 @@ const fieldInput = ref('')
 // 标识当前正在编辑的属性名字段
 const updateName = ref('')
 
-// 弹窗确认
+// 弹窗确认时触发 - 先在内存中修改好user的用户信息，最后调用接口时再传入该user对象作为请求参数
 const confirmDialog = () => {
   // console.log('当前正在修改的属性名 = ', updateName.value, ' 输入框值 = ', fieldInput.value)
   // todo 先修改内存中的当前用户属性信息，调用接口时直接传入该用户即可
   if (updateName.value === 'gender') {
-    // 如果修改的是性别属性，需要把单选框的值赋给用户的性别
+    // 如果修改的是性别，需要把单选框的值赋给用户的性别
     user.value.gender = Number(checkedName.value)
+  } else if (updateName.value === 'tags') {
+    // 如果修改的是标签，需要把已选标签列表赋给用户的tags属性
+    user.value.tags = selectedTagsList.value.toString()
   } else {
     // 其它属性都是输入框值修改
     user.value[`${updateName.value}`] = fieldInput.value
@@ -134,7 +137,7 @@ const confirmDialog = () => {
 
 // 保存用户信息（此方法才是真正更新后台用户信息）
 const save = () => {
-  // 调用接口，并传入当前用户
+  // 调用接口，并传入当前内存中的用户
   updateUserAPI(user.value)
     .then((res) => {
       if (res.data.code === 200) {
@@ -150,6 +153,18 @@ const save = () => {
 
 // 弹窗取消
 const cancelDialog = () => {}
+
+// 已选标签列表(里面存放标签名字符串)
+const selectedTagsList: any = ref(['java', 'python', '前端', '网上冲浪', '男'])
+
+// 点击关闭标签时触发
+const onCloseTag = (tagName: any) => {
+  // console.log(`当前要关闭的标签名：`, tagName)
+  // 对当前要关闭的标签，通过名字在已选标签列表中进行比对，过滤出不需要关闭的标签，重新赋值数据渲染
+  selectedTagsList.value = selectedTagsList.value.filter((item: any) => {
+    return item !== tagName
+  })
+}
 </script>
 
 <template>
@@ -261,17 +276,23 @@ const cancelDialog = () => {}
         style="border: 2px #e5e3e3 solid"
       />
       <!--我的标签 -->
-      <van-field
-        v-if="dialogTitle === '我的标签'"
-        v-model="fieldInput"
-        rows="6"
-        autosize
-        type="textarea"
-        maxlength="255"
-        placeholder="请输入留言"
-        show-word-limit
-        style="border: 2px #e5e3e3 solid"
-      />
+      <van-row justify="space-around" v-if="dialogTitle === '我的标签'">
+        <van-space align="center" size="5px" style="padding: 5px" fill wrap>
+          <!-- show 指定是否展示标签(默认true), 添加 closeable 属性表示标签是可关闭的，关闭标签时会触发 close 事件，在 close 事件中可以执行隐藏标签的逻辑。-->
+          <van-tag
+            plain
+            round
+            closeable
+            color="#676767"
+            size="large"
+            @close="onCloseTag(tag)"
+            v-for="tag in selectedTagsList"
+            :key="tag"
+            >{{ tag }}</van-tag
+          >
+        </van-space>
+      </van-row>
+
       <!--所在地区 -->
       <van-field
         v-if="dialogTitle === '所在地区'"

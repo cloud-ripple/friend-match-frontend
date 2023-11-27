@@ -1,7 +1,7 @@
 <script setup lang="ts">
-
 // 获取路由器
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router'
+import SvgIcon from '@/assets/icons/SvgIcon.vue'
 
 const router = useRouter()
 // 点击用户头像
@@ -17,71 +17,65 @@ const onClickEditInfo = () => {
 </script>
 
 <template>
-  <!-- Layout 布局-row-col组件 每个元素的两侧间隔相等 -->
   <!-- 第一行（顶部区域） -->
-  <van-row justify="space-around">
-    <van-col span="6">
-      <!-- 用户头像 -->
-      <van-image
-        round
-        fit="cover"
-        width="80"
-        height="80"
-        src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
-        @click="onClickUser"
-      >
-        <template v-slot:loading>
-          <van-loading type="spinner" size="20" />
-        </template>
-      </van-image>
-    </van-col>
-    <van-col span="18">
-      <van-cell center title="单元格" value="内容" label="描述信息" is-link>
-        <!-- 自定义单元格title区域 -->
-        <template #title>
-          <van-row justify="space-between">
-            <!-- 用户昵称（最大长度为6） -->
-            <span class="custom-title" style="color: #f48d08; font-size: 15px">@cloud-ripple</span>
-          </van-row>
-        </template>
-        <!-- 自定义单元格label区域（用户名下方） -->
-        <template #label>
-          <van-row justify="space-around">
-            <span class="custom-title">用户ID：1493440094</span>
-            <span class="custom-title">性别：男</span>
-            <van-icon name="location">南京市</van-icon>
-          </van-row>
-        </template>
-        <!-- 自定义单元格value区域（最右侧） -->
-        <template #value>
-          <span class="custom-title" @click="onClickEditInfo">编辑资料</span>
-        </template>
-      </van-cell>
-    </van-col>
-  </van-row>
+  <van-space
+    direction="vertical"
+    fill
+    style="padding: 0 14px; margin-bottom: 3px; background: #ffffffff"
+  >
+    <van-row>
+      <van-col span="4">
+        <!-- 用户头像-->
+        <van-image
+          round
+          fit="cover"
+          width="50"
+          height="50"
+          src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg"
+          @click="onClickUser"
+        >
+          <template v-slot:loading>
+            <van-loading type="spinner" size="15" />
+          </template>
+        </van-image>
+      </van-col>
+      <van-col span="15">
+        <!-- 用户昵称（最大长度为6） -->
+        <van-row style="padding-top: 5px" :wrap="false">
+          <van-space direction="vertical">
+            <span style="color: #2e2e2c; font-size: 16px">哈忘语今天咩来</span>
+            <span style="color: #7f7d7c; font-size: 13px">ID：1493440094</span>
+          </van-space>
+        </van-row>
+      </van-col>
+      <van-col span="3">
+        <!-- 最右侧 > -->
+        <van-icon
+          @click="onClickEditInfo"
+          name="arrow"
+          size="17"
+          color="#7d7878ff"
+          style="margin: 18px 40px"
+        />
+      </van-col>
+    </van-row>
+  </van-space>
+
   <!-- 分割线 -->
   <van-divider :style="{ color: '#151313', borderColor: '#a29999' }">我的标签</van-divider>
   <!-- 第二行（我的标签区域） -->
   <van-row justify="space-around">
-    <van-space align="center" size="5px" style="padding: 5px" fill wrap>
-      <van-tag plain round color="red" size="medium" :show="true">java</van-tag>
-      <van-tag plain round color="red">python</van-tag>
-      <van-tag plain round color="red">大二</van-tag>
-      <van-tag plain round color="red">前端</van-tag>
-      <van-tag plain round color="red">羽毛球</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
-      <van-tag plain round color="red">跑步</van-tag>
+    <van-space align="center" size="10px" style="padding: 0 10px" fill wrap>
+      <van-tag plain round color="red" size="large" :show="true" v-for="i in 8" :key="i"
+        >java</van-tag
+      >
+      <van-tag plain round color="red" size="large" :show="true" v-for="i in 3" :key="i"
+        >网上冲浪</van-tag
+      >
     </van-space>
   </van-row>
   <!-- 分割线 -->
-  <van-divider :hairline="true" :style="{ color: '#151313', borderColor: '#676767' }" />
+  <van-divider :hairline="true" style="border-color: #676767" />
   <van-grid icon-size="30px" :column-num="4" :gutter="1" :border="false" :clickable="true" square>
     <van-grid-item icon="browsing-history" icon-color="#B7AB6AFF" text="浏览历史"></van-grid-item>
     <van-grid-item icon="photo" icon-color="#76BB0DFF" text="我的相册" />
@@ -93,7 +87,7 @@ const onClickEditInfo = () => {
     <van-grid-item icon="question" icon-color="#D4A569FF" text="关于本站" />
   </van-grid>
   <!-- 分割线 -->
-  <van-divider :style="{ color: '#151313', borderColor: '#a29999' }"> </van-divider>
+  <van-divider style="border-color: #a29999" />
   <!-- 切换账号 -->
   <van-button size="large" icon="" :hairline="true" block text="切换账号" />
   <!-- 退出登录  -->
