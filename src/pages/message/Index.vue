@@ -31,7 +31,7 @@ const onClickRow = (val: any) => {
     direction="vertical"
     fill
     style="padding: 5px; margin-bottom: 4px; background: #fbfafa"
-    v-for="i in 7"
+    v-for="i in 6"
     :key="i"
   >
     <van-swipe-cell>

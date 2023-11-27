@@ -3,7 +3,7 @@ import { onBeforeMount, ref } from 'vue'
 import SearchBar from '@/components/SearchBar.vue'
 import { searchUsersByTagsAPI } from '@/apis/userAPI'
 import SearchResult from '@/pages/search/SearchResult.vue'
-import { getChildTagsAPI, getChildTagsByCategoryAPI, getParentTagsAPI } from '@/apis/tagAPI'
+import { getChildTagsAPI, getParentTagsAPI } from '@/apis/tagAPI'
 import { showNotify } from 'vant'
 import type { Tag } from '@/models/tag'
 
