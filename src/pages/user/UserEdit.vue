@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { User } from '@/models/user'
 import { useRouter } from 'vue-router'
 import { updateUserAPI } from '@/apis/userAPI'
 import { showNotify } from 'vant'
+import { getChildTagsAPI } from '@/apis/tagAPI'
 
 const router = useRouter()
 // 点击导航栏左侧
@@ -25,7 +26,7 @@ const onClickRight = () => {
 
 // 当前登录用户信息
 const user: any = ref<User>({
-  id: 3, // id
+  id: 2, // id
   username: '云漪', // 用户昵称
   userAccount: 'ripple', // 用户账号
   avatarUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg', // 用户头像
@@ -126,7 +127,8 @@ const confirmDialog = () => {
     user.value.gender = Number(checkedName.value)
   } else if (updateName.value === 'tags') {
     // 如果修改的是标签，需要把已选标签列表赋给用户的tags属性
-    user.value.tags = selectedTagsList.value.toString()
+    user.value.tags = JSON.stringify(selectedTagsList.value)
+    // console.log('已选标签：', JSON.stringify(selectedTagsList.value))
   } else {
     // 其它属性都是输入框值修改
     user.value[`${updateName.value}`] = fieldInput.value
@@ -156,7 +158,18 @@ const cancelDialog = () => {}
 
 // 已选标签列表(里面存放标签名字符串)
 const selectedTagsList: any = ref(['java', 'python', '前端', '网上冲浪', '男'])
+// 所有子标签列表（用于存放）
+const allChildTags: any = ref([])
+// 获取所有子标签，根据分类名
+const getChildTags = async () => {
+  const result = await getChildTagsAPI()
+  allChildTags.value = result.data.data
+}
 
+onMounted(() => {
+  // 加载子标签数据
+  getChildTags()
+})
 // 点击关闭标签时触发
 const onCloseTag = (tagName: any) => {
   // console.log(`当前要关闭的标签名：`, tagName)
@@ -164,6 +177,15 @@ const onCloseTag = (tagName: any) => {
   selectedTagsList.value = selectedTagsList.value.filter((item: any) => {
     return item !== tagName
   })
+}
+// 点击标签时触发 -> 添加到已选标签列表中进行展示
+const onClickAddTag = (tagName: any) => {
+  // console.log('点击了标签', tagName)
+  // 判断当前添加的标签在已选列表中是否存在，如果存在，就不用再次添加了，会造成标签重复展示
+  if (!selectedTagsList.value.includes(tagName)) {
+    // 将其添加到已选标签列表
+    selectedTagsList.value.push(tagName)
+  }
 }
 </script>
 
@@ -200,6 +222,7 @@ const onCloseTag = (tagName: any) => {
   </van-row>
   <!-- 弹窗-用于修改资料 -->
   <van-dialog
+    width="440"
     v-model:show="showDialog"
     :title="dialogTitle"
     show-cancel-button
@@ -275,23 +298,43 @@ const onCloseTag = (tagName: any) => {
         v-model="fieldInput"
         style="border: 2px #e5e3e3 solid"
       />
-      <!--我的标签 -->
-      <van-row justify="space-around" v-if="dialogTitle === '我的标签'">
-        <van-space align="center" size="5px" style="padding: 5px" fill wrap>
-          <!-- show 指定是否展示标签(默认true), 添加 closeable 属性表示标签是可关闭的，关闭标签时会触发 close 事件，在 close 事件中可以执行隐藏标签的逻辑。-->
-          <van-tag
-            plain
-            round
-            closeable
-            color="#676767"
-            size="large"
-            @close="onCloseTag(tag)"
-            v-for="tag in selectedTagsList"
-            :key="tag"
-            >{{ tag }}</van-tag
-          >
-        </van-space>
-      </van-row>
+      <!--我的标签(最多 20个左右，需要做个优化)-->
+      <div v-if="dialogTitle === '我的标签'">
+        <van-row justify="space-around">
+          <van-space size="3px" style="padding: 0 2px" fill wrap>
+            <!-- show 指定是否展示标签(默认true), 添加 closeable 属性表示标签是可关闭的，关闭标签时会触发 close 事件，在 close 事件中可以执行隐藏标签的逻辑。-->
+            <van-tag
+              plain
+              round
+              closeable
+              color="red"
+              size="large"
+              @close="onCloseTag(tag)"
+              v-for="tag in selectedTagsList"
+              :key="tag"
+              >{{ tag }}</van-tag
+            >
+          </van-space>
+        </van-row>
+        <!-- 分割线 -->
+        <van-divider :hairline="true" style="color: #151313; border-color: #a29999"
+          >可选标签</van-divider
+        >
+        <div style="overflow-y: auto; height: 100%" id="chat-container">
+          <van-space align="center" size="4px" fill wrap>
+            <van-tag
+              plain
+              round
+              color="red"
+              size="large"
+              @click="onClickAddTag(tag.tagName)"
+              v-for="tag in allChildTags"
+              :key="tag"
+              >{{ tag.tagName }}</van-tag
+            >
+          </van-space>
+        </div>
+      </div>
 
       <!--所在地区 -->
       <van-field

@@ -6,14 +6,15 @@ const request = axios.create({
   baseURL: 'http://localhost:8080/api',
   // baseURL: process.env.NODE_ENV === 'production' ? process.env.BASE_API : '/api',
   timeout: 100000,
-  // 自定义请求头
+  // 自定义请求头，允许请求体json格式，否则登录请求携带请求体参数会报错
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json;'
   },
-  // 允许携带cookie请求
-  // withCredentials: true
+  // withCredentials: true //允许请求携带 cookie
 })
 
+// 允许请求携带 cookie （当登录成功后，后端响应头会设置 session 中的用户登录信息）
+request.defaults.withCredentials = true
 // 环境切换
 //axios.defaults.baseURL = '/api';
 // if (process.env.NODE_ENV == 'development') {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { showToast } from 'vant'
+import { router } from "@/router";
 
 // 控制通知栏是否显示
 const show = ref(false)
@@ -40,6 +41,8 @@ const onClickApplyTeam = () => {
 // 队伍详情
 const onClickDetailTeam = () => {
   console.log('点击了队伍详情')
+  router.push('/teamInfo')
+
 }
 
 // ------- 我的队伍 ----------

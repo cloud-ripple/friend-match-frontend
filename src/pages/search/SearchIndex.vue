@@ -50,7 +50,7 @@ const getParentTags = async () => {
   parentTagsList.value = result.data.data
 }
 
-// 获取所有子标签，根据分类名
+// 获取所有子标签
 const getChildTags = async () => {
   const result = await getChildTagsAPI()
   allChildTags.value = result.data.data

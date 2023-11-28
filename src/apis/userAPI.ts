@@ -23,3 +23,14 @@ export const updateUserAPI = (user: User) => {
     data: user
   })
 }
+
+export const userLoginAPI = (userAccount: any, userPassword: any) => {
+  return myAxios({
+    url: '/user/login',
+    method: 'post',
+    data: {
+      userAccount,
+      userPassword
+    }
+  })
+}
