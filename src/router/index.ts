@@ -10,6 +10,7 @@ import CreateIndex from '@/pages/create/Index.vue'
 import MessageChat from '@/pages/message/MessageChat.vue'
 import UserEdit from '@/pages/user/UserEdit.vue'
 import TeamInfo from '@/pages/team/TeamInfo.vue'
+import FriendApply from "@/pages/message/FriendApply.vue";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -54,6 +55,11 @@ export const router = createRouter({
           path: 'edit',
           name: 'bianji', //个人资料编辑页
           component: UserEdit
+        },
+        {
+          path: 'friend',
+          name: 'haoyou', //好友申请页
+          component: FriendApply
         }
       ]
     },

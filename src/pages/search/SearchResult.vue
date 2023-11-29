@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import type UserProps from '@/interface/UserProps'
+import type UserListProps from '@/interface/UserListProps'
 
 // 控制加载提示（进入当前搜索结果页时默认显示）
 const loading = ref(true)
@@ -23,7 +23,7 @@ const onClickTab = (tabParamsObj: any) => {
 }
 
 // 声明接收父组件传递过来的属性和方法（只能在模板语法中使用，props父向子传递数据是单向的，数据不能修改，只读）
-const props = defineProps<UserProps>()
+const props = defineProps<UserListProps>()
 </script>
 
 <template>

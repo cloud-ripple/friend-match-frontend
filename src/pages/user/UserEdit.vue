@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import type { User } from '@/models/user'
 import { useRouter } from 'vue-router'
 import { updateUserAPI } from '@/apis/userAPI'
-import { showNotify } from 'vant'
+import { showFailToast, showNotify, showSuccessToast, showToast } from "vant";
 import { getChildTagsAPI } from '@/apis/tagAPI'
 
 const router = useRouter()
@@ -144,12 +144,12 @@ const save = () => {
     .then((res) => {
       if (res.data.code === 200) {
         // 成功通知
-        showNotify({ type: 'success', message: '信息保存成功！', duration: 800 })
+        showNotify({ type: 'success', message: '保存成功！',duration: 800, });
       }
     })
     .catch((error) => {
       // 错误通知
-      showNotify({ type: 'danger', message: '保存失败了！', duration: 1000 })
+      showNotify({ type: 'danger', message: '保存失败了！',duration: 800, });
     })
 }
 

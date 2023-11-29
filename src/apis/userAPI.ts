@@ -8,7 +8,7 @@ import type { User } from '@/models/user'
  */
 export const searchUsersByTagsAPI = (tagNameList: any) => {
   return myAxios({
-    url: '/user/tags',
+    url: '/user/search/tags',
     params: {
       tagNameList
     }
@@ -31,6 +31,23 @@ export const userLoginAPI = (userAccount: any, userPassword: any) => {
     data: {
       userAccount,
       userPassword
+    }
+  })
+}
+
+export const currentUserAPI = () => {
+  return myAxios({
+    url: '/user/current'
+  })
+}
+
+// 主页推荐用户（分页查询） - 相似度匹配
+export const recommendUsersAPI = (pageSize: number = 5, pageNum: number = 1) => {
+  return myAxios({
+    url: '/user/recommend',
+    params: {
+      pageSize,
+      pageNum
     }
   })
 }

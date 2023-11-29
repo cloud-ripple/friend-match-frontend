@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type UserProps from '@/interface/UserProps'
+import type UserListProps from '@/interface/UserListProps'
+import type { User } from "@/models/user";
 // ------- 推荐伙伴 ----------
 // 加好友
 const onClickAddFriend = () => {
@@ -15,18 +16,22 @@ const onClickMore = () => {
 }
 
 // 声明接收父组件传递过来的属性和方法（只能在模板语法中通过参数变量名使用，props父向子传递数据是单向的，数据不能修改，只读）
-const props = defineProps<UserProps>()
+const props = withDefaults(defineProps<UserListProps>(),{
+  // @ts-ignore
+  userList:[] as User[]  // 如果父组件传递的数据为空，就给个默认值
+})
+
 </script>
 
 <template>
   <!-- 此处的 usersList数据就是SearchResult.vue父组件传递过来的，在上面已经通过defineProps声明接收了-->
   <van-card
+    v-for="user in usersList"
     tag="小黑子"
     :desc="user.selfDesc"
     :title="user.username"
     :thumb="user.avatarUrl"
     centered
-    v-for="user in usersList"
   >
     <!--   自定义描述下方标签区域  -->
     <template #tags>
@@ -62,7 +67,7 @@ const props = defineProps<UserProps>()
         <van-icon name="invitation" size="14">邀请入队</van-icon>
       </van-button>
       <van-button size="mini" @click="onClickMore">
-        <van-icon name="arrow" size="14">更多...</van-icon>
+        <van-icon name="arrow" size="14">更多</van-icon>
       </van-button>
     </template>
   </van-card>

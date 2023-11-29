@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { userLoginAPI } from '@/apis/userAPI'
+import { onMounted, ref } from 'vue'
+import {  userLoginAPI } from '@/apis/userAPI'
 
 onMounted(async () => {
   const res = await userLoginAPI('ripple2', '11111111')

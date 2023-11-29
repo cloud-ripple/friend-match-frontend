@@ -2,6 +2,15 @@
 // 获取路由器
 import { useRouter } from 'vue-router'
 
+// 点击通知互动
+const onClickVolume = () => {
+  console.log('消息页-点击了通知互动')
+  // 跳转到好友申请页
+  router.push({
+    path: '/friend'
+  })
+}
+
 const router = useRouter()
 // 点击用户头像
 const onClickUser = () => {}
@@ -24,7 +33,7 @@ const onClickRow = (val: any) => {
     <van-grid-item icon="comment-o" icon-color="#76BB0DFF" text="评论" />
     <van-grid-item icon="good-job-o" icon-color="#1989fa" text="点赞" />
     <van-grid-item icon="like-o" icon-color="#29A61CFF" text="粉丝" />
-    <van-grid-item icon="volume-o" icon-color="#B024C9FF" text="通知互动" />
+    <van-grid-item @click="onClickVolume" icon="volume-o" icon-color="#B024C9FF" text="通知互动" />
   </van-grid>
   <!-- 聊天区域 -->
   <van-space
@@ -94,7 +103,3 @@ button {
   height: 100%;
 }
 </style>
-
-
-
-
