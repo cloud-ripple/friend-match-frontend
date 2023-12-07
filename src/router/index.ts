@@ -10,7 +10,9 @@ import CreateIndex from '@/pages/create/Index.vue'
 import MessageChat from '@/pages/message/MessageChat.vue'
 import UserEdit from '@/pages/user/UserEdit.vue'
 import TeamInfo from '@/pages/team/TeamInfo.vue'
-import FriendApply from "@/pages/message/FriendApply.vue";
+import FriendApply from '@/pages/message/FriendApply.vue'
+import UserLogin from '@/pages/user/UserLogin.vue'
+import UserRegister from '@/pages/user/UserRegister.vue'
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -77,6 +79,16 @@ export const router = createRouter({
       path: '/chat',
       name: 'liaotian', //用户聊天页
       component: MessageChat
+    },
+    {
+      path: '/login',
+      name: 'denglu', //登录页
+      component: UserLogin
+    },
+    {
+      path: '/register',
+      name: 'zhuce', //注册页
+      component: UserRegister
     }
   ]
 })

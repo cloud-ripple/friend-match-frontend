@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import {  userLoginAPI } from '@/apis/userAPI'
+// 获取一个 Store 存储实例
+import { useCurrentUserStore } from '@/stores/counter'
+import { onMounted } from 'vue'
 
-onMounted(async () => {
-  const res = await userLoginAPI('ripple2', '11111111')
-  console.log('登录：', res)
+const currentUserStore = useCurrentUserStore()
+onMounted(() => {
+  // 调用函数，获取当前登录用户
+  currentUserStore.getCurrentUser()
 })
 </script>
 

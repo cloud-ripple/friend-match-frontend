@@ -90,7 +90,7 @@ const onClickShare = () => {
         <van-row style="padding-top: 5px" :wrap="false">
           <van-space direction="vertical">
             <span style="color: #f48d08; font-size: 16px">哈忘语今天咩来</span>
-            <van-icon name="clock" size="13" color="#7d7878ff">2023-11-17</van-icon>
+            <van-icon name="clock" size="14" color="#7d7878ff">2023-11-17</van-icon>
           </van-space>
         </van-row>
       </van-col>

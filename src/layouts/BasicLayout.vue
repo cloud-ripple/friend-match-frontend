@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useCurrentUserStore } from "@/stores/counter";
 
 const router = useRouter()
 // 导航栏左侧
@@ -47,6 +48,8 @@ const icon = {
 }
 
 const route = useRoute()
+
+
 </script>
 
 <template>

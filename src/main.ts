@@ -6,11 +6,14 @@ import { router } from '@/router'
 // svg 相关
 import 'virtual:svg-icons-register'
 import SvgIcon from '@/assets/icons/SvgIcon.vue'
+import { useCurrentUserStore } from "@/stores/counter";
 
 const app = createApp(App)
 
 app.use(Lazyload)
 app.use(createPinia())
+
+
 app.use(router)
 app.component('svg-icon', SvgIcon)
 

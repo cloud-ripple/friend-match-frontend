@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import type { User } from '@/models/user'
 import { useRouter } from 'vue-router'
-import { updateUserAPI } from '@/apis/userAPI'
-import { showFailToast, showNotify, showSuccessToast, showToast } from "vant";
-import { getChildTagsAPI } from '@/apis/tagAPI'
+import { currentUserAPI, updateUserAPI } from '@/apis/userAPI'
+import { showFailToast, showNotify, showSuccessToast, showToast, Toast } from "vant";
+import { getChildTagsAPI, getParentTagsAPI } from '@/apis/tagAPI'
+import { useCurrentUserStore } from '@/stores/counter'
+import type { Tag } from '@/models/tag'
 
 const router = useRouter()
 // 点击导航栏左侧
@@ -24,33 +25,54 @@ const onClickRight = () => {
   })
 }
 
+const currentUserStore = useCurrentUserStore()
+
 // 当前登录用户信息
-const user: any = ref<User>({
-  id: 2, // id
-  username: '云漪', // 用户昵称
-  userAccount: 'ripple', // 用户账号
-  avatarUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg', // 用户头像
-  gender: 1, // 用户性别
-  userPassword: '11111111', //用户密码
-  phone: '13267891234', // 电话
-  email: '1493440094@qq.com', //邮箱
-  userStatus: 0, //用户状态
-  createTime: new Date('2023-11-23'), //创建时间
-  updateTime: new Date('2023-11-23'), //更新时间
-  isDelete: 0, //逻辑删除
-  userRole: 1, //用户角色
-  planetCode: 1, //星球编号
-  tags: '["java", "网上冲浪"]', //用户所拥有的标签
-  area: '苏州市', //所在地区
-  selfDesc: '心动不如行动', //自我描述，个性签名
-  fansNum: 0 //粉丝数量
+const user: any = ref({})
+// 获取当前登录用户
+const getCurrentUser = async () => {
+  const result = await currentUserAPI()
+  user.value = result.data
+  selectedTagsList.value = JSON.parse(user.value.tags)
+  // console.log('当前登录用户：', result.data)
+}
+onMounted(() => {
+  getCurrentUser()
 })
 
+// 文件上传完毕
+const afterUpload = (file: any) => {
+  // todo 调用文件上传接口
+  console.log('file: ', file)
+}
+// user.value = currentUserStore.currentUser || {}
+// {
+// id: 2, // id
+// username: '云漪', // 用户昵称
+// userAccount: 'ripple', // 用户账号
+// avatarUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg', // 用户头像
+// gender: 1, // 用户性别
+// userPassword: '11111111', //用户密码
+// phone: '13267891234', // 电话
+// email: '1493440094@qq.com', //邮箱
+// userStatus: 0, //用户状态
+// createTime: new Date('2023-11-23'), //创建时间
+// updateTime: new Date('2023-11-23'), //更新时间
+// isDelete: 0, //逻辑删除
+// userRole: 1, //用户角色
+// planetCode: 1, //星球编号
+// tags: '["java", "网上冲浪"]', //用户所拥有的标签
+// area: '苏州市', //所在地区
+// selfDesc: '心动不如行动', //自我描述，个性签名
+// fansNum: 0 //粉丝数量
+//
+// }
+
 // 用户头像url
-const avatarUrl = ref([{ url: user.value.avatarUrl }])
+// const avatarUrl = ref([{ url: user.value?.avatarUrl }])
 
 // 单选框的值，根据 name 标识符匹配
-const checkedName = ref(user.value.gender.toString())
+const checkedName = ref(user.value?.gender?.toString())
 // 切换单选框时触发
 const changeRadio = (val: any) => {
   // console.log('当前选择的性别，', checkedName.value, val)
@@ -144,29 +166,50 @@ const save = () => {
     .then((res) => {
       if (res.data.code === 200) {
         // 成功通知
-        showNotify({ type: 'success', message: '保存成功！',duration: 800, });
+        showSuccessToast('保存成功')
       }
     })
     .catch((error) => {
       // 错误通知
-      showNotify({ type: 'danger', message: '保存失败了！',duration: 800, });
+      showFailToast('保存失败了！')
     })
 }
 
 // 弹窗取消
 const cancelDialog = () => {}
 
+// ------标签分类区域-----
+// 当前激活的tab标签
+const activeTabName = ref('热门')
+// 所有父标签列表（所有分类）
+const parentTagsList: any = ref([])
+// 当前分类下的子标签（用于渲染）
+const categoryTagsList: any = ref([])
 // 已选标签列表(里面存放标签名字符串)
-const selectedTagsList: any = ref(['java', 'python', '前端', '网上冲浪', '男'])
+const selectedTagsList: any = ref([])
 // 所有子标签列表（用于存放）
 const allChildTags: any = ref([])
-// 获取所有子标签，根据分类名
+// 点击每个 tab 标签栏触发(会自动改变当前激活的tab标签名)
+const onClickTab = (tabParamsObj: any) => {
+  // 在所有子标签的基础上，过滤出当前分类下的子标签，重新赋值用于渲染
+  categoryTagsList.value = allChildTags.value.filter((item: Tag) => {
+    return item.category === activeTabName.value
+  })
+}
+// 获取所有父标签
+const getParentTags = async () => {
+  const result = await getParentTagsAPI()
+  parentTagsList.value = result.data.data
+}
+// 获取所有子标签
 const getChildTags = async () => {
   const result = await getChildTagsAPI()
   allChildTags.value = result.data.data
 }
 
 onMounted(() => {
+  // 加载父标签分类数据
+  getParentTags()
   // 加载子标签数据
   getChildTags()
 })
@@ -181,15 +224,30 @@ const onCloseTag = (tagName: any) => {
 // 点击标签时触发 -> 添加到已选标签列表中进行展示
 const onClickAddTag = (tagName: any) => {
   // console.log('点击了标签', tagName)
+  // 用户最多可添加 20 个标签
+  if (selectedTagsList.value.length >= 15) {
+    show.value = true
+    return
+  }
   // 判断当前添加的标签在已选列表中是否存在，如果存在，就不用再次添加了，会造成标签重复展示
   if (!selectedTagsList.value.includes(tagName)) {
     // 将其添加到已选标签列表
     selectedTagsList.value.push(tagName)
   }
 }
+
+// 控制提示
+const show = ref(false)
 </script>
 
 <template>
+  <!-- 轻提示组件 -->
+  <van-toast v-model:show="show" style="padding: 20px">
+    <template #message>
+      <span>最多可添加15个标签</span>
+    </template>
+  </van-toast>
+
   <!-- 顶部导航栏 -->
   <van-nav-bar
     title="编辑资料"
@@ -211,14 +269,13 @@ const onClickAddTag = (tagName: any) => {
 
   <!-- 头像 -->
   <van-row justify="center">
-    <van-uploader
-      v-model="avatarUrl"
-      preview-size="90"
-      accept="image/png, image/jpeg, image/jpg"
-      reupload
-      :show-upload="false"
-      :deletable="false"
-    />
+    <van-uploader accept="image/png, image/jpeg, image/jpg" :after-read="afterUpload">
+      <van-image width="80" height="80" fit="cover" :src="user.avatarUrl">
+        <template v-slot:loading>
+          <van-loading type="spinner" size="20" />
+        </template>
+      </van-image>
+    </van-uploader>
   </van-row>
   <!-- 弹窗-用于修改资料 -->
   <van-dialog
@@ -320,20 +377,44 @@ const onClickAddTag = (tagName: any) => {
         <van-divider :hairline="true" style="color: #151313; border-color: #a29999"
           >可选标签</van-divider
         >
-        <div style="overflow-y: auto; height: 100%" id="chat-container">
-          <van-space align="center" size="4px" fill wrap>
-            <van-tag
-              plain
-              round
-              color="red"
-              size="large"
-              @click="onClickAddTag(tag.tagName)"
-              v-for="tag in allChildTags"
-              :key="tag"
-              >{{ tag.tagName }}</van-tag
-            >
-          </van-space>
-        </div>
+        <!--        <div style="overflow-y: auto; height: 100%" id="chat-container">-->
+        <!--          <van-space align="center" size="4px" fill wrap>-->
+        <!--            <van-tag-->
+        <!--              plain-->
+        <!--              round-->
+        <!--              color="red"-->
+        <!--              size="large"-->
+        <!--              @click="onClickAddTag(tag.tagName)"-->
+        <!--              v-for="tag in allChildTags"-->
+        <!--              :key="tag"-->
+        <!--              >{{ tag.tagName }}</van-tag-->
+        <!--            >-->
+        <!--          </van-space>-->
+        <!--        </div>-->
+        <!-- 标签分类 在标签指定 name 属性的情况下，v-model:active 的值为当前标签的 name（此时无法通过索引值tab index来匹配标签） -->
+        <van-tabs v-model:active="activeTabName" type="line" @click-tab="onClickTab" swipeable>
+          <!-- 每个tab栏(即所有父标签分类) -->
+          <van-tab
+            :title="parentTag.tagName"
+            :name="parentTag.tagName"
+            v-for="parentTag in parentTagsList"
+          >
+            <van-row justify="space-around">
+              <van-space align="center" size="5px" style="padding: 5px" fill wrap>
+                <!-- 每个父标签分类下对应其所有的子标签-->
+                <van-tag
+                  plain
+                  round
+                  color="#676767"
+                  size="large"
+                  v-for="childTag in categoryTagsList"
+                  @click="onClickAddTag(childTag.tagName)"
+                  >{{ childTag.tagName }}</van-tag
+                >
+              </van-space>
+            </van-row>
+          </van-tab>
+        </van-tabs>
       </div>
 
       <!--所在地区 -->
@@ -407,7 +488,7 @@ const onClickAddTag = (tagName: any) => {
     <!--  注册日期 -->
     <van-cell
       title="注册日期"
-      :value="user.createTime.toDateString()"
+      :value="user.createTime"
       size="large"
       @click="EditInfo('createTime', user.createTime)"
     />

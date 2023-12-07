@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import FriendArticle from '@/pages/home/FriendArticle.vue'
-import { currentUserAPI, recommendUsersAPI } from '@/apis/userAPI'
+import { recommendUsersAPI } from '@/apis/userAPI'
 
 // tab 标签激活值，默认高亮 name="recommend" 推荐标签
 const activeTabName = ref('recommend')
@@ -37,17 +37,9 @@ const onChangePage = () => {
 onMounted(() => {
   // 加载推荐用户数据
   getRecommendUsers(size.value, currentPage.value)
-  getCurrentUser()
+  console.log(recommendUsersList.value.length);
 })
 
-// 获取当前登录用户
-const getCurrentUser = async () => {
-  const result = await currentUserAPI()
-  const currentUser: any = ref({})
-  currentUser.value = result.data.data
-  console.log('当前登录用户：', result.data.data)
-  console.log('当前登录用户：', currentUser.value)
-}
 // ------- 好友圈 ----------
 </script>
 
@@ -72,19 +64,23 @@ const getCurrentUser = async () => {
     <!-- 推荐伙伴  -->
     <van-tab title="推荐伙伴" name="recommend">
       <!-- 内容展示区域（用户个人卡片可以抽取成一个组件-这里可以单独写一个接口用于展示推荐的用户（比如按照标签数排序推荐）） -->
-      <UserCard :users-list="recommendUsersList"></UserCard>
+      <div style="margin-bottom: 42px">
+        <UserCard :users-list="recommendUsersList"></UserCard>
+      </div>
       <!--  当查看最后一页时，显示-->
-      <van-divider v-if="currentPage === pages" style="border-color: #b5afaf; font-size: 17px"
+      <van-divider v-if="currentPage === pages" style="border-color: #b5afaf; font-size: 14px"
         >暂时没有更多了</van-divider
       >
-
+      <!-- 分页组件 -->
       <van-pagination
+        v-if="total > 5"
         v-model="currentPage"
         @change="onChangePage"
         :total-items="total"
         :items-per-page="size"
         :show-page-size="6"
         :page-count="pages"
+        style="position: fixed; bottom: 45px; margin: 1px 0; width: 100%"
       >
         <template #prev-text>
           <van-icon name="arrow-left" />
